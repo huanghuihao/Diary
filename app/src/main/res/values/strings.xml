@@ -1,0 +1,24 @@
+<resources>
+    <!--应用名-->
+    <string name="app_name">小象日记</string>
+    <!--标题栏-->
+    <string name="default_title">标题</string>
+    <!--fragment_空布局-->
+    <string name="hello_blank_fragment">todo fragment</string>
+    <!--日记条目-->
+    <string name="title_diary">标题</string>
+    <string name="content_diary">内容</string>
+    <string name="date_diary">日期</string>
+    <string name="location_diary">位置</string>
+    <string name="weather_diary">天气</string>
+    <!--日记空布局文案-->
+    <string name="empty_text_diary">您还没有任何日记，点击开始创作 !</string>
+    <string name="content_hint">请输入内容</string>
+    <string name="is_public">是否公开</string>
+    <string name="is_public_false">否</string>
+    <string name="title_hint">请输入标题</string>
+    <string name="weather">天气:</string>
+    <string name="weather_value">暴风雨</string>
+    <string name="location">位置:</string>
+    <string name="location_value">武汉市积玉桥</string>
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/tab_diary"
+        android:icon="@mipmap/tab_diary"
+        android:title="日记" />
+    <item
+        android:id="@+id/tab_wee"
+        android:icon="@mipmap/tab_wee"
+        android:title="点滴" />
+    <item
+        android:id="@+id/tab_setting"
+        android:icon="@mipmap/tab_setting"
+        android:title="设置" />
+</menu>
