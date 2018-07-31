@@ -7,6 +7,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.huanghh.diary.R;
@@ -29,9 +30,9 @@ import java.util.List;
 import butterknife.BindView;
 
 public class DiaryFragment extends BaseFragment<DiaryPresenter> implements DiaryContract.View, OnRefreshListener, OnLoadMoreListener, BaseQuickAdapter.OnItemClickListener, View.OnClickListener {
-    @BindView(R.id.recyclerView_diary)
+    @BindView(R.id.rv_diary)
     RecyclerView mRecyclerView;
-    @BindView(R.id.refreshLayout_diary)
+    @BindView(R.id.rl_diary)
     SmartRefreshLayout mRefreshLayout;
     View mEmptyView;
     DiaryAdapter mAdapter;
@@ -94,7 +95,6 @@ public class DiaryFragment extends BaseFragment<DiaryPresenter> implements Diary
 
     @Override
     public void onClick(View view) {
-        showToast("startActivity");
         startActivity(new Intent(mParentActivity, DiaryInputActivity.class));
     }
 
@@ -108,16 +108,4 @@ public class DiaryFragment extends BaseFragment<DiaryPresenter> implements Diary
         return 0;
     }
 
-    /*private List<DiaryItem> getLocalData() {
-        List<DiaryItem> list = mDao.loadAll(DiaryItem.class);
-        return list;
-        mData.add(new DiaryItem("今天天气很好", "吧啦吧啦吧啦吧啦，吧啦吧啦吧啦，吧啦吧啦吧啦吧啦吧啦吧啦吧啦，吧啦吧啦吧啦吧啦吧啦，吧啦，吧啦，吧啦，吧啦！", "2018.07.16", "北京", "晴"));
-        mData.add(new DiaryItem("今天天气很好", "吧啦吧啦吧啦吧啦，吧啦吧啦吧啦，吧啦吧啦吧啦吧啦吧啦吧啦吧啦，吧啦吧啦吧啦吧啦吧啦，吧啦，吧啦，吧啦，吧啦！", "2018.07.16", "北京", "晴"));
-        mData.add(new DiaryItem("今天天气很好", "吧啦吧啦吧啦吧啦！", "2018.07.16", "北京", "晴"));
-        mData.add(new DiaryItem("今天天气很好", "吧啦吧啦吧啦吧啦，吧啦吧啦吧啦，吧啦吧啦吧啦吧啦！", "2018.07.16", "北京", "晴"));
-        mData.add(new DiaryItem("今天天气很好", "吧啦吧！", "2018.07.16", "北京", "晴"));
-        mData.add(new DiaryItem("今天天气很好", "吧啦吧啦吧啦吧啦，吧啦吧啦吧啦，吧啦吧啦吧啦吧啦吧啦吧啦吧啦！", "2018.07.16", "北京", "晴"));
-        mData.add(new DiaryItem("今天天气很好", "吧啦吧啦吧啦吧啦，吧啦吧啦吧啦，吧啦吧啦吧啦吧啦吧啦吧啦吧啦，吧啦吧啦吧啦吧啦吧啦！", "2018.07.16", "北京", "晴"));
-        mData.add(new DiaryItem("今天天气很好", "吧啦吧啦吧啦吧啦，吧啦吧啦吧啦，吧啦吧啦吧啦吧啦吧啦吧啦吧啦，吧啦吧啦吧啦吧啦吧啦，吧啦，吧啦，吧啦，吧啦，吧啦吧啦吧啦吧啦，吧啦吧啦吧啦，吧啦吧啦吧啦吧啦吧啦吧啦吧啦，吧啦吧啦吧啦吧啦吧啦，吧啦，吧啦，吧啦，吧啦！", "2018.07.16", "北京", "晴"));
-    }*/
 }

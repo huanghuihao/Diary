@@ -2,7 +2,9 @@
     <!--应用名-->
     <string name="app_name">小象日记</string>
     <!--标题栏-->
-    <string name="default_title">标题</string>
+    <string name="default_title">title</string>
+    <string name="left_text">返回</string>
+    <string name="right_text">保存</string>
     <!--fragment_空布局-->
     <string name="hello_blank_fragment">todo fragment</string>
     <!--日记条目-->

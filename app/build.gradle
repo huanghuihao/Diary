@@ -63,9 +63,8 @@ dependencies {
     //dagger2
     implementation 'com.google.dagger:dagger:2.16'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.16'
-    //stepView
-    implementation 'com.github.baoyachi:StepView:1.9'
-
-    /*implementation "com.github.hotchemi:permissionsdispatcher:4.0.0-alpha1"
-    annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:4.0.0-alpha1"*/
+    //utils
+    implementation 'com.blankj:utilcode:1.17.3'
+    //eventBus
+    implementation 'org.greenrobot:eventbus:3.1.1'
 }

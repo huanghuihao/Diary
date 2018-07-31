@@ -1,5 +1,6 @@
 package com.huanghh.diary.mvp.view.activity;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,8 @@ import android.view.View;
 import com.huanghh.diary.R;
 import com.huanghh.diary.adapter.HomePagerAdapter;
 import com.huanghh.diary.base.BaseActivity;
+import com.huanghh.diary.di.component.DaggerHomeComponent;
+import com.huanghh.diary.di.module.HomeModule;
 import com.huanghh.diary.mvp.contract.HomeContract;
 import com.huanghh.diary.mvp.presenter.HomePresenter;
 import com.huanghh.diary.mvp.view.fragment.DiaryFragment;
@@ -20,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class HomeActivity extends BaseActivity<HomePresenter> implements HomeContract.View, BottomNavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
     @BindView(R.id.bottomNavigationView)
@@ -40,6 +44,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         mViewPager.setOffscreenPageLimit(3);
         setTitle("写日记");
         leftIsVisibility(View.GONE);
+        setRight(2);
         mListFragment.add(new DiaryFragment());
         mListFragment.add(new WeeFragment());
         mListFragment.add(new SettingFragment());
@@ -51,7 +56,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     @Override
     protected void inject() {
-        //DaggerHomeComponent.builder().homeModule(new HomeModule(this)).build().inject(this);
+        DaggerHomeComponent.builder().homeModule(new HomeModule(this)).build().inject(this);
     }
 
     @Override
@@ -88,12 +93,15 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         switch (i) {
             case 0:
                 setTitle("写日记");
+                setRight(2);
                 break;
             case 1:
                 setTitle("写点滴");
+                setRight(2);
                 break;
             case 2:
                 setTitle("设置");
+                setRight(0);
                 break;
         }
     }
@@ -101,5 +109,18 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     public void onPageScrollStateChanged(int i) {
 
+    }
+
+    @OnClick(R.id.img_right)
+    public void onClick() {
+        int current = mViewPager.getCurrentItem();
+        switch (current) {
+            case 0:
+                startActivity(new Intent(HomeActivity.this, DiaryInputActivity.class));
+                break;
+            case 1:
+                startActivity(new Intent(HomeActivity.this, WeeInputActivity.class));
+                break;
+        }
     }
 }
