@@ -41,8 +41,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity implements BaseView {
-    @BindView(R.id.tv_left)
-    TextView mTvLeft;
+    @BindView(R.id.img_left)
+    ImageView mImgLeft;
     @BindView(R.id.tv_title)
     TextView mTvTitle;
     @BindView(R.id.tv_right)
@@ -78,10 +78,10 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         mLoadingDialog.setCancelable(false);
     }
 
-    @OnClick({R.id.tv_left, R.id.tv_right, R.id.img_right})
+    @OnClick({R.id.img_left, R.id.tv_right, R.id.img_right})
     public void onViewClick(View view) {
         switch (view.getId()) {
-            case R.id.tv_left:
+            case R.id.img_left:
                 leftClick();
                 break;
             case R.id.tv_right:
@@ -121,15 +121,11 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     }
 
     protected void leftIsVisibility(int isVisibility) {
-        mTvLeft.setVisibility(isVisibility);
+        mImgLeft.setVisibility(isVisibility);
     }
 
     protected void rightIsVisibility(int isVisibility) {
         mTvRight.setVisibility(isVisibility);
-    }
-
-    protected void setLeftText(String left) {
-        mTvLeft.setText(left);
     }
 
     protected void setRightText(String right) {

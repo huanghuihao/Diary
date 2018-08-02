@@ -25,4 +25,6 @@
     <string name="weather_value">暴风雨</string>
     <string name="location">位置:</string>
     <string name="location_value">武汉市积玉桥</string>
+    <string name="setting_pass">添加手势密码</string>
+    <string name="setting_about">关于</string>
 </resources>

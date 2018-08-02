@@ -46,8 +46,6 @@ public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implem
         setRightText(right_text);
         setTitle("写日记");
         getIntentData();
-
-
     }
 
     @Override
@@ -94,18 +92,15 @@ public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implem
             showToast("请输入日记标题!");
             return false;
         }
-
         if (content.length() == 0) {
             showToast("请输入日记内容!");
             return false;
         }
-
         String weather = mTv_weather.getText().toString().trim();
         String location = mTv_location.getText().toString().trim();
         String isPublic = mTv_isPublic.getText().toString().trim();
         boolean isPublicB = false;
         if (isPublic.equals("是")) isPublicB = true;
-
         mDiary.setTitle(title);
         mDiary.setContent(content);
         mDiary.setDate(TimeUtils.getNowString());

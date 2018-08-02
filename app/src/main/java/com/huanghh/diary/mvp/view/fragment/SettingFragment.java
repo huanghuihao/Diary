@@ -1,28 +1,30 @@
 package com.huanghh.diary.mvp.view.fragment;
 
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.huanghh.diary.R;
+import com.huanghh.diary.base.BaseFragment;
+import com.huanghh.diary.di.component.DaggerSettingComponent;
+import com.huanghh.diary.di.module.SettingModule;
+import com.huanghh.diary.mvp.contract.SettingContract;
+import com.huanghh.diary.mvp.presenter.SettingPresenter;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class SettingFragment extends Fragment {
-
+public class SettingFragment extends BaseFragment<SettingPresenter> implements SettingContract.View {
 
     public SettingFragment() {
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_setting, container, false);
+    protected int setContentLayoutRes() {
+        return R.layout.fragment_setting;
     }
 
+    @Override
+    protected void init() {
+
+    }
+
+    @Override
+    protected void inject() {
+        DaggerSettingComponent.builder().settingModule(new SettingModule(this)).build().inject(this);
+    }
 }
