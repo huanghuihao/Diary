@@ -13,6 +13,8 @@ import com.huanghh.diary.mvp.contract.DiaryInputContract;
 import com.huanghh.diary.mvp.model.DiaryItem;
 import com.huanghh.diary.mvp.presenter.DiaryInputPresenter;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -42,7 +44,10 @@ public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implem
         leftIsVisibility(View.VISIBLE);
         rightIsVisibility(View.VISIBLE);
         setRightText(right_text);
+        setTitle("写日记");
         getIntentData();
+
+
     }
 
     @Override
@@ -50,12 +55,16 @@ public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implem
         DaggerDiaryInputComponent.builder().diaryInputModule(new DiaryInputModule(this, mDao)).build().inject(this);
     }
 
-    @OnClick({R.id.img_voice_diary_input, R.id.tv_weather_value_diary_input})
+    @Override
+    protected boolean isLoadSpeech() {
+        return true;
+    }
+
+    @OnClick({R.id.img_voice_diary_input})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_voice_diary_input:
-                break;
-            case R.id.tv_weather_value_diary_input:
+                showIatResult(mEt_content);
                 break;
         }
     }
@@ -63,6 +72,7 @@ public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implem
     @Override
     protected void rightClick() {
         saveToLocal();
+        EventBus.getDefault().post("diaryRefresh");
     }
 
     /**
@@ -74,9 +84,7 @@ public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implem
     }
 
     private void saveToLocal() {
-        if (checkInput()) {
-            mPresenter.saveToLocal(mDiary, 0);
-        }
+        if (checkInput()) mPresenter.saveToLocal(mDiary, 0);
     }
 
     private boolean checkInput() {

@@ -10,8 +10,6 @@ public interface DiaryContract {
 
     //view需要得到数据list，填充到适配器中
     interface View extends BaseView {
-        void getLocalData(List<DiaryItem> list);
-
         int setDefaultPage();
     }
 

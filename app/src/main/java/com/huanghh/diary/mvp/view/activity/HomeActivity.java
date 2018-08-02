@@ -42,7 +42,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     protected void init() {
         //设置默认缓存页面，不然会调用fragment的onCreate导致不复用
         mViewPager.setOffscreenPageLimit(3);
-        setTitle("写日记");
+        setTitle("日记");
         leftIsVisibility(View.GONE);
         setRight(2);
         mListFragment.add(new DiaryFragment());
@@ -92,11 +92,11 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
         switch (i) {
             case 0:
-                setTitle("写日记");
+                setTitle("日记");
                 setRight(2);
                 break;
             case 1:
-                setTitle("写点滴");
+                setTitle("点滴");
                 setRight(2);
                 break;
             case 2:

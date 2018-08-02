@@ -4,12 +4,18 @@ import com.huanghh.diary.mvp.model.WeeItem;
 import com.huanghh.diary.mvp.presenter.BasePresenter;
 import com.huanghh.diary.mvp.view.BaseView;
 
-public interface WeeInputContract {
+import java.util.List;
+
+public interface WeeContract {
     interface View extends BaseView {
-        void saveFinish();
+        int setDefaultPage();
     }
 
     interface Presenter extends BasePresenter {
-        void saveToLocal(WeeItem wee, int type);
+        List<WeeItem> getRefreshData();
+
+        List<WeeItem> getLocalData();
+
+        List<WeeItem> getLoadMoreData();
     }
 }

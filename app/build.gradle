@@ -67,4 +67,6 @@ dependencies {
     implementation 'com.blankj:utilcode:1.17.3'
     //eventBus
     implementation 'org.greenrobot:eventbus:3.1.1'
+
+
 }

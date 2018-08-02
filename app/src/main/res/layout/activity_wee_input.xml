@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context=".mvp.view.activity.WeeInputActivity">
 
     <include
@@ -14,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/et_content_wee_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -36,7 +38,7 @@
         tools:ignore="RtlHardcoded" />
 
     <ImageView
-        android:id="@+id/imageButton"
+        android:id="@+id/img"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginEnd="16dp"
@@ -44,10 +46,35 @@
         android:layout_marginTop="16dp"
         android:src="@mipmap/voice"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        app:layout_constraintTop_toBottomOf="@+id/et_content_wee_input" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/tv_location_wee_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/location"
+        android:textColor="@color/input_text_color"
+        android:textSize="@dimen/input_text_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img" />
+
+    <TextView
+        android:id="@+id/tv_location_value_wee_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/location_value"
+        android:textColor="@color/input_text_color"
+        android:textSize="@dimen/input_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_location_wee_input" />
+
+    <TextView
+        android:id="@+id/tv_isPublic_wee_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -57,10 +84,10 @@
         android:textColor="@color/input_text_color"
         android:textSize="@dimen/input_text_size"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_location_wee_input" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/tv_isPublic_value_wee_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -69,6 +96,6 @@
         android:textColor="@color/input_text_color"
         android:textSize="@dimen/input_text_size"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView5" />
+        app:layout_constraintTop_toTopOf="@+id/tv_isPublic_wee_input" />
 
 </android.support.constraint.ConstraintLayout>

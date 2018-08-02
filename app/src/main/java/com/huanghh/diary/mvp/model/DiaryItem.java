@@ -7,7 +7,7 @@ import org.greenrobot.greendao.annotation.Id;
 @Entity
 public class DiaryItem {
     @Id(autoincrement = true)
-    private Long id;
+    public Long id;
     /**
      * 标题、内容、时间、天气、位置、是否公开、存储状态(-1-本地暂存;0-本地完成;1-服务器;2-提交服务器失败;)
      */

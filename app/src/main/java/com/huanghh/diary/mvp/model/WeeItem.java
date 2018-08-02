@@ -14,12 +14,12 @@ public class WeeItem {
     private String content;
     private String date;
     private String location;
-    private String isPublic;
+    private boolean isPublic;
     private int localType;
 
-    @Generated(hash = 1390483802)
+    @Generated(hash = 401601444)
     public WeeItem(Long id, String content, String date, String location,
-                   String isPublic, int localType) {
+                   boolean isPublic, int localType) {
         this.id = id;
         this.content = content;
         this.date = date;
@@ -64,11 +64,11 @@ public class WeeItem {
         this.location = location;
     }
 
-    public String getIsPublic() {
+    public boolean getIsPublic() {
         return this.isPublic;
     }
 
-    public void setIsPublic(String isPublic) {
+    public void setIsPublic(boolean isPublic) {
         this.isPublic = isPublic;
     }
 

@@ -14,7 +14,9 @@
     <string name="location_diary">位置</string>
     <string name="weather_diary">天气</string>
     <!--日记空布局文案-->
+    <string name="empty_text_loading">数据加载中 !</string>
     <string name="empty_text_diary">您还没有任何日记，点击开始创作 !</string>
+    <string name="empty_text_wee">您还没有任何点滴，点击开始创作 !</string>
     <string name="content_hint">请输入内容</string>
     <string name="is_public">是否公开</string>
     <string name="is_public_false">否</string>

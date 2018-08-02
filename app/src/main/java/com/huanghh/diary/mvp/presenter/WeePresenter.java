@@ -1,18 +1,18 @@
 package com.huanghh.diary.mvp.presenter;
 
 import com.huanghh.diary.dao.DaoSession;
-import com.huanghh.diary.dao.DiaryItemDao;
-import com.huanghh.diary.mvp.contract.DiaryContract;
-import com.huanghh.diary.mvp.model.DiaryItem;
+import com.huanghh.diary.dao.WeeItemDao;
+import com.huanghh.diary.mvp.contract.WeeContract;
+import com.huanghh.diary.mvp.model.WeeItem;
 
 import java.util.List;
 
-public class DiaryPresenter extends BasePresenterImpl<DiaryContract.View> implements DiaryContract.Presenter {
+public class WeePresenter extends BasePresenterImpl<WeeContract.View> implements WeeContract.Presenter {
     private int page, defaultPage;
     //数据库
     private DaoSession mDao;
 
-    public DiaryPresenter(DiaryContract.View view, DaoSession dao) {
+    public WeePresenter(WeeContract.View view, DaoSession dao) {
         mView = view;
         this.mDao = dao;
         defaultPage = mView.setDefaultPage();
@@ -24,7 +24,7 @@ public class DiaryPresenter extends BasePresenterImpl<DiaryContract.View> implem
     }
 
     @Override
-    public List<DiaryItem> getRefreshData() {
+    public List<WeeItem> getRefreshData() {
         if (!isViewAttached()) {
             return null;
         }
@@ -33,12 +33,12 @@ public class DiaryPresenter extends BasePresenterImpl<DiaryContract.View> implem
     }
 
     @Override
-    public List<DiaryItem> getLocalData() {
-        return mDao.getDiaryItemDao().queryBuilder().orderDesc(DiaryItemDao.Properties.Id).offset(page * 10).limit(10).list();
+    public List<WeeItem> getLocalData() {
+        return mDao.getWeeItemDao().queryBuilder().orderDesc(WeeItemDao.Properties.Id).offset(page * 10).limit(10).list();
     }
 
     @Override
-    public List<DiaryItem> getLoadMoreData() {
+    public List<WeeItem> getLoadMoreData() {
         page++;
         return getLocalData();
     }

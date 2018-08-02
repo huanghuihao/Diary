@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import com.huanghh.diary.R;
 import com.huanghh.diary.dao.DaoMaster;
 import com.huanghh.diary.dao.DaoSession;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechUtility;
 import com.scwang.smartrefresh.header.PhoenixHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
@@ -33,6 +35,7 @@ public class DiaryApp extends Application {
         super.onCreate();
         instances = this;
         setDatabase();
+        initXunFei();
     }
 
     @Override
@@ -94,5 +97,9 @@ public class DiaryApp extends Application {
 
     public SQLiteDatabase getDb() {
         return db;
+    }
+
+    private void initXunFei() {
+        SpeechUtility.createUtility(this, SpeechConstant.APPID + "=5b6171de");
     }
 }

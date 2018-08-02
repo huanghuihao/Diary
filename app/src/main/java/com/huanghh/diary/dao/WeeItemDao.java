@@ -28,7 +28,7 @@ public class WeeItemDao extends AbstractDao<WeeItem, Long> {
         public final static Property Content = new Property(1, String.class, "content", false, "CONTENT");
         public final static Property Date = new Property(2, String.class, "date", false, "DATE");
         public final static Property Location = new Property(3, String.class, "location", false, "LOCATION");
-        public final static Property IsPublic = new Property(4, String.class, "isPublic", false, "IS_PUBLIC");
+        public final static Property IsPublic = new Property(4, boolean.class, "isPublic", false, "IS_PUBLIC");
         public final static Property LocalType = new Property(5, int.class, "localType", false, "LOCAL_TYPE");
     }
 
@@ -49,7 +49,7 @@ public class WeeItemDao extends AbstractDao<WeeItem, Long> {
                 "\"CONTENT\" TEXT," + // 1: content
                 "\"DATE\" TEXT," + // 2: date
                 "\"LOCATION\" TEXT," + // 3: location
-                "\"IS_PUBLIC\" TEXT," + // 4: isPublic
+                "\"IS_PUBLIC\" INTEGER NOT NULL ," + // 4: isPublic
                 "\"LOCAL_TYPE\" INTEGER NOT NULL );"); // 5: localType
     }
 
@@ -82,11 +82,7 @@ public class WeeItemDao extends AbstractDao<WeeItem, Long> {
         if (location != null) {
             stmt.bindString(4, location);
         }
- 
-        String isPublic = entity.getIsPublic();
-        if (isPublic != null) {
-            stmt.bindString(5, isPublic);
-        }
+        stmt.bindLong(5, entity.getIsPublic() ? 1L: 0L);
         stmt.bindLong(6, entity.getLocalType());
     }
 
@@ -113,11 +109,7 @@ public class WeeItemDao extends AbstractDao<WeeItem, Long> {
         if (location != null) {
             stmt.bindString(4, location);
         }
- 
-        String isPublic = entity.getIsPublic();
-        if (isPublic != null) {
-            stmt.bindString(5, isPublic);
-        }
+        stmt.bindLong(5, entity.getIsPublic() ? 1L: 0L);
         stmt.bindLong(6, entity.getLocalType());
     }
 
@@ -133,7 +125,7 @@ public class WeeItemDao extends AbstractDao<WeeItem, Long> {
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // content
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // date
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // location
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // isPublic
+            cursor.getShort(offset + 4) != 0, // isPublic
             cursor.getInt(offset + 5) // localType
         );
         return entity;
@@ -145,7 +137,7 @@ public class WeeItemDao extends AbstractDao<WeeItem, Long> {
         entity.setContent(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setDate(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setLocation(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setIsPublic(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setIsPublic(cursor.getShort(offset + 4) != 0);
         entity.setLocalType(cursor.getInt(offset + 5));
      }
     

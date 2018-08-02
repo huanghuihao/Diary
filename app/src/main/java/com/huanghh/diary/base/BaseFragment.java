@@ -16,6 +16,8 @@ import com.huanghh.diary.dao.DaoSession;
 import com.huanghh.diary.mvp.presenter.BasePresenter;
 import com.huanghh.diary.mvp.view.BaseView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
@@ -36,6 +38,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View contentView = inflater.inflate(setContentLayoutRes(), container, false);
         mBfBinder = ButterKnife.bind(this, contentView);
+        if (isLoadEventBus()) EventBus.getDefault().register(this);
         mParentActivity = getActivity();
         mLayoutInflater = inflater;
         mDao = DiaryApp.getDaoSession();
@@ -58,16 +61,14 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     @Override
     public void onStop() {
         super.onStop();
-        Log.e("baseFragment", "onStop");
-        if (mPresenter != null) {
-            mPresenter.detachView();
-        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mPresenter != null) mPresenter = null;
+        if (mPresenter != null) mPresenter.detachView();
+        mPresenter = null;
+        if (isLoadEventBus()) EventBus.getDefault().unregister(this);
         mBfBinder.unbind();
     }
 
@@ -76,6 +77,10 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     protected abstract void init();
 
     protected abstract void inject();
+
+    protected boolean isLoadEventBus() {
+        return false;
+    }
 
     @Override
     public boolean isShowLoading() {
