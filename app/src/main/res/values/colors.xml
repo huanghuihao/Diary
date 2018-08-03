@@ -12,9 +12,9 @@
     <color name="tab_checked">#6699FF</color>
     <color name="tab_unchecked">#757575</color>
 
-    <color name="stepView_line">#333333</color>
-
     <color name="input_hint_color">#cccccc</color>
     <color name="input_text_color">#222222</color>
+
+    <color name="bg_color">#f2f2f2</color>
 
 </resources>

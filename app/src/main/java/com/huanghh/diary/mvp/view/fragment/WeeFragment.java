@@ -1,5 +1,6 @@
 package com.huanghh.diary.mvp.view.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -53,6 +54,7 @@ public class WeeFragment extends BaseFragment<WeePresenter> implements WeeContra
         return R.layout.fragment_wee;
     }
 
+    @SuppressLint("InflateParams")
     @Override
     protected void init() {
         //初始化recyclerView

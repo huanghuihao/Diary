@@ -3,12 +3,10 @@ package com.huanghh.diary.mvp.view.fragment;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.huanghh.diary.R;
@@ -58,7 +56,7 @@ public class DiaryFragment extends BaseFragment<DiaryPresenter> implements Diary
     protected void init() {
         //初始化recyclerView
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mParentActivity, LinearLayoutManager.VERTICAL, false));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(mParentActivity, DividerItemDecoration.VERTICAL));
+        //mRecyclerView.addItemDecoration(new DividerItemDecoration(mParentActivity, DividerItemDecoration.VERTICAL));
         //初始化adapter并绑定recyclerView
         mAdapter = new DiaryAdapter(R.layout.layout_diary_item, mData);
         mAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);

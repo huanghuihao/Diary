@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -41,6 +42,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     protected void init() {
         //设置默认缓存页面，不然会调用fragment的onCreate导致不复用
+        Log.e("homeActivity","oncreate");
         mViewPager.setOffscreenPageLimit(3);
         setTitle("日记");
         leftIsVisibility(View.GONE);
