@@ -67,6 +67,7 @@ dependencies {
     implementation 'com.blankj:utilcode:1.17.3'
     //eventBus
     implementation 'org.greenrobot:eventbus:3.1.1'
-
+    //图片选择器
+    implementation 'com.zhihu.android:matisse:0.5.1-beta1'
 
 }
