@@ -3,4 +3,11 @@
     <dimen name="input_text_size">16sp</dimen>
     <dimen name="setting_item_size">16sp</dimen>
 
+    <dimen name="title_center">16sp</dimen>
+    <dimen name="title_right">14sp</dimen>
+
+    <!--图片选择器-->
+    <dimen name="grid_expected_size">120dp</dimen>
+    <dimen name="item_margin_horizontal">24dp</dimen>
+    <dimen name="item_margin_vertical">8dp</dimen>
 </resources>

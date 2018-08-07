@@ -2,7 +2,7 @@
     <!--应用名-->
     <string name="app_name">小象日记</string>
     <!--标题栏-->
-    <string name="default_title">title</string>
+    <string name="default_title">标题</string>
     <string name="left_text">返回</string>
     <string name="right_text">保存</string>
     <!--fragment_空布局-->
@@ -28,4 +28,6 @@
     <string name="setting_pass">添加手势密码</string>
     <string name="setting_feedback">反馈</string>
     <string name="setting_about">关于</string>
+
+    <string name="error_gif">x or y bound size should be at least %1$dpx and file size should be no more than %2$sM</string>
 </resources>

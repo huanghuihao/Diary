@@ -1,21 +1,26 @@
 package com.huanghh.diary.base;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.huanghh.diary.R;
 import com.huanghh.diary.dao.DaoSession;
 import com.huanghh.diary.helper.JsonParser;
+import com.huanghh.diary.interfaces.ILocation;
+import com.huanghh.diary.interfaces.ISpeech;
 import com.huanghh.diary.mvp.presenter.BasePresenter;
 import com.huanghh.diary.mvp.view.BaseView;
 import com.iflytek.cloud.ErrorCode;
@@ -26,6 +31,7 @@ import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechRecognizer;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
@@ -55,13 +61,13 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected DaoSession mDao;
     ProgressDialog mLoadingDialog;
 
-    /**
-     * 讯飞语音
-     */
-    private SpeechRecognizer mIat;
     private RecognizerDialog mIatDialog;
     private HashMap<String, String> mIatResults = new LinkedHashMap<>();
-    private EditText mIatEditText;
+    private AMapLocationClient mLocationClient;
+    /**
+     * 权限
+     */
+    RxPermissions rxPermissions = new RxPermissions(this);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,7 +75,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         setContentView(setContentLayoutRes());
         ButterKnife.bind(this);
         if (isLoadEventBus()) EventBus.getDefault().register(this);
-        if (isLoadSpeech()) initSpeech();
         mDao = DiaryApp.getDaoSession();
         init();
 
@@ -107,9 +112,18 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        //eventBus解绑
         if (isLoadEventBus()) EventBus.getDefault().unregister(this);
-        if (mPresenter != null) mPresenter.detachView();
-        mPresenter = null;
+        //presenter解绑
+        if (mPresenter != null) {
+            mPresenter.detachView();
+            mPresenter = null;
+        }
+        //定位销毁
+        if (mLocationClient != null) {
+            mLocationClient.stopLocation();
+            mLocationClient.onDestroy();
+        }
     }
 
     protected abstract int setContentLayoutRes();
@@ -163,10 +177,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         return false;
     }
 
-    protected boolean isLoadSpeech() {
-        return false;
-    }
-
     @Override
     public boolean isShowLoading() {
         return true;
@@ -191,22 +201,37 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         showToast("其它错误!");
     }
 
-    protected void showIatResult(EditText editText) {
-        mIatEditText = editText;
-        mIatDialog.show();
+    protected void permissionsGranted() {
     }
 
+    protected void permissionsRejected() {
+    }
+
+    @SuppressLint("CheckResult")
+    protected void checkPermissions(String... permissions) {
+        rxPermissions
+                .request(permissions)
+                .subscribe(granted -> {
+                    if (granted) {
+                        permissionsGranted();
+                    } else {
+                        permissionsRejected();
+                    }
+                });
+    }
+
+    private InitListener mInitListener = code -> {
+        if (code != ErrorCode.SUCCESS) {
+            showToast("初始化失败，错误码：" + code);
+        }
+    };
+
     /**
-     * 参数设置
+     * 讯飞语音参数设置
      */
-    public void initSpeech() {
-        // 使用SpeechRecognizer对象，可根据回调消息自定义界面；
-        mIat = SpeechRecognizer.createRecognizer(this, mInitListener);
+    public void initSpeechSetting() {
+        SpeechRecognizer mIat = SpeechRecognizer.createRecognizer(this, mInitListener);
         // 初始化听写Dialog，如果只使用有UI听写功能，无需创建SpeechRecognizer
-        // 使用UI听写功能，请根据sdk文件目录下的notice.txt,放置布局文件和图片资源
-        mIatDialog = new RecognizerDialog(this, mInitListener);
-        // 显示听写对话框
-        mIatDialog.setListener(mRecognizerDialogListener);
         //参数设置
         // 清空参数
         mIat.setParameter(SpeechConstant.PARAMS, null);
@@ -231,41 +256,33 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         mIat.setParameter(SpeechConstant.ASR_AUDIO_PATH, Environment.getExternalStorageDirectory() + "/msc/iat.wav");
     }
 
-    /**
-     * 初始化监听器。
-     */
-    private InitListener mInitListener = new InitListener() {
-        @Override
-        public void onInit(int code) {
-            if (code != ErrorCode.SUCCESS) {
-                showToast("初始化失败，错误码：" + code);
+    protected void speech(ISpeech speech) {
+        // 使用UI听写功能，请根据sdk文件目录下的notice.txt,放置布局文件和图片资源
+        mIatDialog = new RecognizerDialog(this, mInitListener);
+        // 显示听写对话框
+        mIatDialog.setListener(new RecognizerDialogListener() {
+            @Override
+            public void onResult(RecognizerResult recognizerResult, boolean b) {
+                printResult(recognizerResult, speech);
             }
-        }
-    };
+
+            @Override
+            public void onError(SpeechError speechError) {
+                if (speechError.getErrorCode() == 14002) {
+                    showToast(speechError.getPlainDescription(true) + "\n请确认是否已开通翻译功能");
+                } else {
+                    showToast(speechError.getPlainDescription(true));
+                }
+            }
+        });
+        mIatDialog.show();
+    }
 
     /**
-     * 听写UI监听器
+     * 讯飞语音解析
      */
-    private RecognizerDialogListener mRecognizerDialogListener = new RecognizerDialogListener() {
-        public void onResult(RecognizerResult results, boolean isLast) {
-            printResult(results);
-        }
-
-        /**
-         * 识别回调错误.
-         */
-        public void onError(SpeechError error) {
-            if (error.getErrorCode() == 14002) {
-                showToast(error.getPlainDescription(true) + "\n请确认是否已开通翻译功能");
-            } else {
-                showToast(error.getPlainDescription(true));
-            }
-        }
-    };
-
-    private void printResult(RecognizerResult results) {
+    private void printResult(RecognizerResult results, ISpeech speech) {
         String text = JsonParser.parseIatResult(results.getResultString());
-
         String sn = null;
         // 读取json结果中的sn字段
         try {
@@ -274,16 +291,63 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         mIatResults.put(sn, text);
-
-        StringBuffer resultBuffer = new StringBuffer();
+        StringBuilder resultBuffer = new StringBuilder();
         for (String key : mIatResults.keySet()) {
             resultBuffer.append(mIatResults.get(key));
         }
-
-        mIatEditText.setText(resultBuffer.toString());
-        mIatEditText.setSelection(mIatEditText.length());
+        speech.speechCallback(resultBuffer.toString());
     }
 
+    /**
+     * 高德定位设置
+     */
+    protected AMapLocationClientOption initLocationOption() {
+        //初始化AMapLocationClientOption对象
+        AMapLocationClientOption locationOption = new AMapLocationClientOption();
+        locationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        //获取一次定位结果：
+        //该方法默认为false。
+        locationOption.setOnceLocation(true);
+        //获取最近3s内精度最高的一次定位结果：
+        //设置setOnceLocationLatest(boolean b)接口为true，启动定位时SDK会返回最近3s内精度最高的一次定位结果。如果设置其为true，setOnceLocation(boolean b)接口也会被设置为true，反之不会，默认为false。
+        locationOption.setOnceLocationLatest(true);
+        //设置定位间隔,单位毫秒,默认为2000ms，最低1000ms。
+        locationOption.setInterval(1000);
+        //设置是否返回地址信息（默认返回地址信息）
+        locationOption.setNeedAddress(true);
+        //设置是否允许模拟位置,默认为true，允许模拟位置
+        locationOption.setMockEnable(true);
+        //单位是毫秒，默认30000毫秒，建议超时时间不要低于8000毫秒。
+        locationOption.setHttpTimeOut(20000);
+        //关闭缓存机制
+        locationOption.setLocationCacheEnable(false);
+        return locationOption;
+    }
+
+    /**
+     * 高德定位初始化并启动，通过接口回调获取定位信息
+     */
+    protected void loadLocation(ILocation location) {
+        //初始化定位
+        mLocationClient = new AMapLocationClient(getApplicationContext());
+        //给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(initLocationOption());
+        //设置定位回调监听
+        mLocationClient.setLocationListener(new AMapLocationListener() {
+            @Override
+            public void onLocationChanged(AMapLocation aMapLocation) {
+                if (aMapLocation != null) {
+                    if (aMapLocation.getErrorCode() == 0) {
+                        location.locationCallback(aMapLocation.getStreet() + " · " + aMapLocation.getAoiName());
+                    } else {
+                        location.locationCallback("");
+                        showToast("获取定位信息失败");
+                    }
+                }
+            }
+        });
+        //启动定位
+        mLocationClient.startLocation();
+    }
 }
