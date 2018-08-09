@@ -64,7 +64,6 @@ public class WeeFragment extends BaseFragment<WeePresenter> implements WeeContra
         mRecyclerView.setAdapter(mAdapter);
 
         mRefreshLayout.setRefreshHeader(new MaterialHeader(mParentActivity));
-        mRefreshLayout.setRefreshFooter(new ClassicsFooter(mParentActivity));
         mRefreshLayout.setEnableAutoLoadMore(false);
         //设置监听事件
         mRefreshLayout.setOnRefreshListener(this);

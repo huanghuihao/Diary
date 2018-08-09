@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -50,10 +51,14 @@ public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implem
     @BindView(R.id.rv_imgs_diary_input)
     RecyclerView mRvPics;
     DiaryImagesAdapter mImgAdapter;
-    List<String> mListImgs = new ArrayList<>();
+    List<String> mPics = new ArrayList<>();
     @BindString(R.string.right_text)
     String right_text;
-    public static int REQUEST_CODE_CHOOSE = 0x00001;
+    private static final int PERMISSION_INIT = 0x001;
+    private static final int PERMISSION_PHOTO = 0x002;
+    private static final int PERMISSION_SPEECH = 0x003;
+
+    private static final int REQUEST_CODE_CHOOSE = 0x00001;
     DiaryItem mDiary;
     private int mPhotoSize = 9;
 
@@ -64,11 +69,19 @@ public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implem
 
     @Override
     protected void init() {
+        initPermissions();
         initTitle();
         initPicView();
-        initLocation();
         initSpeech();
         getIntentData();
+    }
+
+    private void initPermissions() {
+        checkPermissions(PERMISSION_INIT, Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION);
     }
 
     /**
@@ -85,14 +98,14 @@ public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implem
      * 初始化图片选择控件
      */
     private void initPicView() {
-        mImgAdapter = new DiaryImagesAdapter(R.layout.layout_img_item, mListImgs, this);
+        mImgAdapter = new DiaryImagesAdapter(R.layout.layout_img_item, mPics, this);
         mImgAdapter.setOnItemClickListener(this);
         mRvPics.setLayoutManager(new GridLayoutManager(this, 4));
         mRvPics.setAdapter(mImgAdapter);
     }
 
     /**
-     * 初始化定位模块
+     * 初始化定位模块，需要在权限(成功、失败回调后都调定位，结果可以直接更新到view)申请后触发定位
      */
     private void initLocation() {
         initLocationOption();
@@ -112,65 +125,47 @@ public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implem
     private void getIntentData() {
         mDiary = (DiaryItem) getIntent().getSerializableExtra("diary");
         if (mDiary == null) mDiary = new DiaryItem();
-        mListImgs.add("empty");
+        mPics.add("empty");
     }
 
     @Override
     protected void inject() {
-        DaggerDiaryInputComponent.builder().diaryInputModule(new DiaryInputModule(this, mDao)).build().inject(this);
+        DaggerDiaryInputComponent.builder().diaryInputModule(new DiaryInputModule(this, mDao))
+                .build().inject(this);
     }
 
     @OnClick({R.id.img_voice_diary_input})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_voice_diary_input:
-                //语音录入
-                speech(this);
+                checkPermissions(PERMISSION_SPEECH, Manifest.permission.RECORD_AUDIO);
                 break;
         }
     }
 
     @Override
     protected void rightClick() {
-        saveToLocal();
+        save();
         EventBus.getDefault().post("diaryRefresh");
     }
 
     /**
      * 右上角点击触发本地保存
      */
-    private void saveToLocal() {
-        if (checkInput()) mPresenter.saveToLocal(mDiary, 0);
-    }
-
-    /**
-     * 输入表单校验
-     *
-     * @return 校验是否成功，如果成功封装本地存储对象
-     */
-    private boolean checkInput() {
-        String title = mEt_title.getText().toString().trim();
-        String content = mEt_content.getText().toString().trim();
-        if (title.length() == 0) {
-            showToast("请输入日记标题!");
-            return false;
-        }
-        if (content.length() == 0) {
-            showToast("请输入日记内容!");
-            return false;
-        }
-        String weather = mTv_weather.getText().toString().trim();
-        String location = mTv_location.getText().toString().trim();
-        String isPublic = mTv_isPublic.getText().toString().trim();
+    private void save() {
+        String title = getViewValue(mEt_title);
+        String content = getViewValue(mEt_content);
+        String weather = getViewValue(mTv_weather);
+        String location = getViewValue(mTv_location);
+        String isPublic = getViewValue(mTv_isPublic);
         boolean isPublicB = false;
         if (isPublic.equals("是")) isPublicB = true;
-        mDiary.setTitle(title);
-        mDiary.setContent(content);
-        mDiary.setDate(TimeUtils.getNowString());
-        mDiary.setWeather(weather);
-        mDiary.setLocation(location);
-        mDiary.setIsPublic(isPublicB);
-        return true;
+        mPresenter.save(mDiary, title, content, weather, location, mPics, isPublicB, 0);
+    }
+
+    private String getViewValue(View view) {
+        if (view instanceof TextView) return ((TextView) view).getText().toString().trim();
+        return "";
     }
 
     /**
@@ -204,8 +199,8 @@ public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implem
      */
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        if (mListImgs.get(position).equals("empty")) {
-            checkPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (mPics.get(position).equals("empty")) {
+            checkPermissions(PERMISSION_PHOTO, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         } else {
 
         }
@@ -215,17 +210,28 @@ public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implem
      * rxPermissions权限获取成功
      */
     @Override
-    protected void permissionsGranted() {
-        super.permissionsGranted();
-        chosePhoto();
+    protected void permissionsGranted(int perCode) {
+        switch (perCode) {
+            case PERMISSION_INIT:
+                initLocation();
+                break;
+            case PERMISSION_PHOTO:
+                chosePhoto();
+                break;
+            case PERMISSION_SPEECH:
+                speech(this);
+                break;
+        }
     }
 
     /**
      * rxPermissions权限获取失败
      */
     @Override
-    protected void permissionsRejected() {
-        super.permissionsRejected();
+    protected void permissionsRejected(int perCode) {
+        if (perCode == PERMISSION_INIT) {
+            initLocation();
+        }
     }
 
     /**

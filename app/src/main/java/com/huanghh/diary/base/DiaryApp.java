@@ -17,6 +17,8 @@ import com.scwang.smartrefresh.layout.api.RefreshFooter;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.footer.FalsifyFooter;
 
 import org.greenrobot.greendao.database.Database;
 
@@ -63,7 +65,9 @@ public class DiaryApp extends Application {
             public RefreshFooter createRefreshFooter(Context context, RefreshLayout layout) {
                 //指定为经典Footer，默认是 BallPulseFooter
                 layout.setReboundDuration(500);
-                return new BallPulseFooter(context);
+                ClassicsFooter footer = new ClassicsFooter(context);
+                footer.setTextSizeTitle(14);
+                return footer;
             }
         });
     }

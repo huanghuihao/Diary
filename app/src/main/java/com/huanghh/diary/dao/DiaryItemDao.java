@@ -30,8 +30,9 @@ public class DiaryItemDao extends AbstractDao<DiaryItem, Long> {
         public final static Property Date = new Property(3, String.class, "date", false, "DATE");
         public final static Property Weather = new Property(4, String.class, "weather", false, "WEATHER");
         public final static Property Location = new Property(5, String.class, "location", false, "LOCATION");
-        public final static Property IsPublic = new Property(6, boolean.class, "isPublic", false, "IS_PUBLIC");
-        public final static Property LocalType = new Property(7, int.class, "localType", false, "LOCAL_TYPE");
+        public final static Property Pics = new Property(6, String.class, "pics", false, "PICS");
+        public final static Property IsPublic = new Property(7, boolean.class, "isPublic", false, "IS_PUBLIC");
+        public final static Property LocalType = new Property(8, int.class, "localType", false, "LOCAL_TYPE");
     }
 
 
@@ -53,8 +54,9 @@ public class DiaryItemDao extends AbstractDao<DiaryItem, Long> {
                 "\"DATE\" TEXT," + // 3: date
                 "\"WEATHER\" TEXT," + // 4: weather
                 "\"LOCATION\" TEXT," + // 5: location
-                "\"IS_PUBLIC\" INTEGER NOT NULL ," + // 6: isPublic
-                "\"LOCAL_TYPE\" INTEGER NOT NULL );"); // 7: localType
+                "\"PICS\" TEXT," + // 6: pics
+                "\"IS_PUBLIC\" INTEGER NOT NULL ," + // 7: isPublic
+                "\"LOCAL_TYPE\" INTEGER NOT NULL );"); // 8: localType
     }
 
     /** Drops the underlying database table. */
@@ -96,8 +98,13 @@ public class DiaryItemDao extends AbstractDao<DiaryItem, Long> {
         if (location != null) {
             stmt.bindString(6, location);
         }
-        stmt.bindLong(7, entity.getIsPublic() ? 1L: 0L);
-        stmt.bindLong(8, entity.getLocalType());
+ 
+        String pics = entity.getPics();
+        if (pics != null) {
+            stmt.bindString(7, pics);
+        }
+        stmt.bindLong(8, entity.getIsPublic() ? 1L: 0L);
+        stmt.bindLong(9, entity.getLocalType());
     }
 
     @Override
@@ -133,8 +140,13 @@ public class DiaryItemDao extends AbstractDao<DiaryItem, Long> {
         if (location != null) {
             stmt.bindString(6, location);
         }
-        stmt.bindLong(7, entity.getIsPublic() ? 1L: 0L);
-        stmt.bindLong(8, entity.getLocalType());
+ 
+        String pics = entity.getPics();
+        if (pics != null) {
+            stmt.bindString(7, pics);
+        }
+        stmt.bindLong(8, entity.getIsPublic() ? 1L: 0L);
+        stmt.bindLong(9, entity.getLocalType());
     }
 
     @Override
@@ -151,8 +163,9 @@ public class DiaryItemDao extends AbstractDao<DiaryItem, Long> {
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // date
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // weather
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // location
-            cursor.getShort(offset + 6) != 0, // isPublic
-            cursor.getInt(offset + 7) // localType
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // pics
+            cursor.getShort(offset + 7) != 0, // isPublic
+            cursor.getInt(offset + 8) // localType
         );
         return entity;
     }
@@ -165,8 +178,9 @@ public class DiaryItemDao extends AbstractDao<DiaryItem, Long> {
         entity.setDate(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setWeather(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setLocation(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setIsPublic(cursor.getShort(offset + 6) != 0);
-        entity.setLocalType(cursor.getInt(offset + 7));
+        entity.setPics(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setIsPublic(cursor.getShort(offset + 7) != 0);
+        entity.setLocalType(cursor.getInt(offset + 8));
      }
     
     @Override

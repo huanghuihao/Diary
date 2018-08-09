@@ -1,11 +1,11 @@
 package com.huanghh.diary.mvp.view.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -33,6 +33,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     ViewPager mViewPager;
     private List<Fragment> mListFragment = new ArrayList<>();
     private MenuItem menuItem;
+    private static final int PERMISSION_INIT = 0x001;
 
     @Override
     protected int setContentLayoutRes() {
@@ -41,8 +42,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     @Override
     protected void init() {
+        initPermissions();
         //设置默认缓存页面，不然会调用fragment的onCreate导致不复用
-        Log.e("homeActivity","oncreate");
         mViewPager.setOffscreenPageLimit(3);
         setTitle("日记");
         leftIsVisibility(View.GONE);
@@ -54,6 +55,17 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         mViewPager.setAdapter(adapter);
         mBottomView.setOnNavigationItemSelectedListener(this);
         mViewPager.addOnPageChangeListener(this);
+    }
+
+    private void initPermissions() {
+        checkPermissions(
+                PERMISSION_INIT, Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.READ_CONTACTS,
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION);
     }
 
     @Override

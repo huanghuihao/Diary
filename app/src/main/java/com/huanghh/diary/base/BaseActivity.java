@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -201,21 +202,21 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         showToast("其它错误!");
     }
 
-    protected void permissionsGranted() {
+    protected void permissionsGranted(int perCode) {
     }
 
-    protected void permissionsRejected() {
+    protected void permissionsRejected(int perCode) {
     }
 
     @SuppressLint("CheckResult")
-    protected void checkPermissions(String... permissions) {
+    protected void checkPermissions(int perCode, String... permissions) {
         rxPermissions
                 .request(permissions)
                 .subscribe(granted -> {
                     if (granted) {
-                        permissionsGranted();
+                        permissionsGranted(perCode);
                     } else {
-                        permissionsRejected();
+                        permissionsRejected(perCode);
                     }
                 });
     }
@@ -227,7 +228,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     };
 
     /**
-     * 讯飞语音参数设置
+     * 讯飞语音模块
      */
     public void initSpeechSetting() {
         SpeechRecognizer mIat = SpeechRecognizer.createRecognizer(this, mInitListener);
@@ -256,6 +257,10 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         mIat.setParameter(SpeechConstant.ASR_AUDIO_PATH, Environment.getExternalStorageDirectory() + "/msc/iat.wav");
     }
 
+    /**
+     *
+     * @param speech
+     */
     protected void speech(ISpeech speech) {
         // 使用UI听写功能，请根据sdk文件目录下的notice.txt,放置布局文件和图片资源
         mIatDialog = new RecognizerDialog(this, mInitListener);
@@ -341,8 +346,8 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
                     if (aMapLocation.getErrorCode() == 0) {
                         location.locationCallback(aMapLocation.getStreet() + " · " + aMapLocation.getAoiName());
                     } else {
-                        location.locationCallback("");
-                        showToast("获取定位信息失败");
+                        Log.e("location", aMapLocation.getErrorCode() + "");
+                        location.locationCallback("获取位置信息失败");
                     }
                 }
             }

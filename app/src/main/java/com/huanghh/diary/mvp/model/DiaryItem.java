@@ -4,6 +4,8 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
+import java.util.List;
+
 @Entity
 public class DiaryItem {
     @Id(autoincrement = true)
@@ -12,18 +14,21 @@ public class DiaryItem {
      * 标题、内容、时间、天气、位置、是否公开、存储状态(-1-本地暂存;0-本地完成;1-服务器;2-提交服务器失败;)
      */
     private String title, content, date, weather, location;
+    private String pics;
     private boolean isPublic;
     private int localType;
 
-    @Generated(hash = 257720192)
+    @Generated(hash = 226567806)
     public DiaryItem(Long id, String title, String content, String date,
-                     String weather, String location, boolean isPublic, int localType) {
+                     String weather, String location, String pics, boolean isPublic,
+                     int localType) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.date = date;
         this.weather = weather;
         this.location = location;
+        this.pics = pics;
         this.isPublic = isPublic;
         this.localType = localType;
     }
@@ -80,6 +85,14 @@ public class DiaryItem {
         this.location = location;
     }
 
+    public String getPics() {
+        return this.pics;
+    }
+
+    public void setPics(String pics) {
+        this.pics = pics;
+    }
+
     public boolean getIsPublic() {
         return this.isPublic;
     }
@@ -95,5 +108,6 @@ public class DiaryItem {
     public void setLocalType(int localType) {
         this.localType = localType;
     }
+
 
 }

@@ -13,7 +13,8 @@
     <color name="tab_unchecked">#757575</color>
 
     <color name="input_hint_color">#cccccc</color>
-    <color name="input_text_color">#222222</color>
+    <color name="input_text_color">#666666</color>
+    <color name="input_other_text_color">#999999</color>
 
     <color name="bg_color">#f2f2f2</color>
 

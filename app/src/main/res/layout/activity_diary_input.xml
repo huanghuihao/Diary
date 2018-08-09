@@ -26,6 +26,7 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#ffffff"
             android:focusable="true"
             android:focusableInTouchMode="true">
 
@@ -104,8 +105,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/weather"
-                android:textColor="@color/input_text_color"
-                android:textSize="@dimen/input_text_size"
+                android:textColor="@color/input_other_text_color"
+                android:textSize="@dimen/input_other_text_size"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/img_voice_diary_input" />
 
@@ -116,8 +117,8 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:text="@string/weather_value"
-                android:textColor="@color/input_text_color"
-                android:textSize="@dimen/input_text_size"
+                android:textColor="@color/input_other_text_color"
+                android:textSize="@dimen/input_other_text_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_weather_diary_input" />
 
@@ -128,10 +129,9 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:background="#c12312"
                 android:text="@string/location"
-                android:textColor="@color/input_text_color"
-                android:textSize="@dimen/input_text_size"
+                android:textColor="@color/input_other_text_color"
+                android:textSize="@dimen/input_other_text_size"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_weather_diary_input" />
 
@@ -141,10 +141,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:background="#999123"
                 android:text="@string/location_value"
-                android:textColor="@color/input_text_color"
-                android:textSize="@dimen/input_text_size"
+                android:textColor="@color/input_other_text_color"
+                android:textSize="@dimen/input_other_text_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_location_diary_input" />
 
@@ -153,15 +152,12 @@
                 android:id="@+id/tv_isPublic_diary_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:background="#cc8877"
                 android:text="@string/is_public"
-                android:textColor="@color/input_text_color"
-                android:textSize="@dimen/input_text_size"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textColor="@color/input_other_text_color"
+                android:textSize="@dimen/input_other_text_size"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_location_diary_input" />
 
@@ -171,10 +167,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:background="#cc00aa"
                 android:text="@string/is_public_false"
-                android:textColor="@color/input_text_color"
-                android:textSize="@dimen/input_text_size"
+                android:textColor="@color/input_other_text_color"
+                android:textSize="@dimen/input_other_text_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_isPublic_diary_input" />
 

@@ -1,6 +1,7 @@
 package com.huanghh.diary.mvp.view.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import com.huanghh.diary.di.module.DiaryModule;
 import com.huanghh.diary.mvp.contract.DiaryContract;
 import com.huanghh.diary.mvp.model.DiaryItem;
 import com.huanghh.diary.mvp.presenter.DiaryPresenter;
+import com.huanghh.diary.mvp.view.activity.DiaryDetailActivity;
 import com.huanghh.diary.mvp.view.activity.DiaryInputActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -52,6 +54,7 @@ public class DiaryFragment extends BaseFragment<DiaryPresenter> implements Diary
         return R.layout.fragment_diary;
     }
 
+    @SuppressLint("InflateParams")
     @Override
     protected void init() {
         //初始化recyclerView
@@ -89,21 +92,22 @@ public class DiaryFragment extends BaseFragment<DiaryPresenter> implements Diary
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         mData.clear();
-        mData.addAll(mPresenter.getRefreshData());
+        mAdapter.addData(mPresenter.getRefreshData());
         if (mData.size() == 0) mTv_empty.setText(emptyStr);
-        mAdapter.notifyDataSetChanged();
         mRefreshLayout.finishRefresh(200);
     }
 
     @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-        mData.addAll(mPresenter.getLoadMoreData());
-        mAdapter.notifyDataSetChanged();
+        mAdapter.addData(mPresenter.getLoadMoreData());
         mRefreshLayout.finishLoadMore(200);
     }
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        Intent intent = new Intent(mParentActivity, DiaryDetailActivity.class);
+        intent.putExtra("id", mData.get(position).getId());
+        startActivity(intent);
     }
 
     @Override
@@ -117,7 +121,7 @@ public class DiaryFragment extends BaseFragment<DiaryPresenter> implements Diary
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void eventRefresh(String event) {
+    public void event(String event) {
         if (event.equals("diaryRefresh")) mRefreshLayout.autoRefresh();
     }
 }
