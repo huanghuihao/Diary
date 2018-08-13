@@ -18,8 +18,8 @@ import com.huanghh.diary.di.module.DiaryModule;
 import com.huanghh.diary.mvp.contract.DiaryContract;
 import com.huanghh.diary.mvp.model.DiaryItem;
 import com.huanghh.diary.mvp.presenter.DiaryPresenter;
-import com.huanghh.diary.mvp.view.activity.DiaryDetailActivity;
 import com.huanghh.diary.mvp.view.activity.DiaryInputActivity;
+import com.huanghh.diary.mvp.view.activity.DiaryPreviewActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -105,7 +105,7 @@ public class DiaryFragment extends BaseFragment<DiaryPresenter> implements Diary
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        Intent intent = new Intent(mParentActivity, DiaryDetailActivity.class);
+        Intent intent = new Intent(mParentActivity, DiaryPreviewActivity.class);
         intent.putExtra("id", mData.get(position).getId());
         startActivity(intent);
     }

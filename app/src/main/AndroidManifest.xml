@@ -111,7 +111,6 @@
             android:name=".mvp.view.activity.WeeInputActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-        <activity android:name=".mvp.view.activity.DiaryDetailActivity" />
     </application>
 
 </manifest>

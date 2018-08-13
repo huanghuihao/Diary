@@ -2,6 +2,7 @@ package com.huanghh.diary.adapter;
 
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -30,6 +31,7 @@ public class DiaryAdapter extends BaseQuickAdapter<DiaryItem, BaseViewHolder> {
         if (pics.length > 0) {
             picPath = pics[0];
         }
+
         if (!TextUtils.isEmpty(picPath)) {
             Glide.with(mContext).load(picPath).into((ImageView) helper.getView(R.id.img_pic_diary));
         } else {
