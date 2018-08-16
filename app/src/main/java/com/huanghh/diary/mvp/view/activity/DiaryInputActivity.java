@@ -36,8 +36,10 @@ import java.util.List;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.OnClick;
+import interfaces.heweather.com.interfacesmodule.bean.weather.now.Now;
+import interfaces.heweather.com.interfacesmodule.view.HeWeather;
 
-public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implements DiaryInputContract.View, BaseQuickAdapter.OnItemClickListener, ILocation, ISpeech {
+public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implements DiaryInputContract.View, BaseQuickAdapter.OnItemClickListener, ILocation, ISpeech, HeWeather.OnResultWeatherNowBeanListener {
     @BindView(R.id.et_title_diary_input)
     EditText mEt_title;
     @BindView(R.id.et_content_diary_input)
@@ -102,6 +104,10 @@ public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implem
         mImgAdapter.setOnItemClickListener(this);
         mRvPics.setLayoutManager(new GridLayoutManager(this, 4));
         mRvPics.setAdapter(mImgAdapter);
+    }
+
+    private void initWeather() {
+        HeWeather.getWeatherNow(this, this);
     }
 
     /**
@@ -214,6 +220,7 @@ public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implem
         switch (perCode) {
             case PERMISSION_INIT:
                 initLocation();
+                initWeather();
                 break;
             case PERMISSION_PHOTO:
                 chosePhoto();
@@ -231,6 +238,7 @@ public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implem
     protected void permissionsRejected(int perCode) {
         if (perCode == PERMISSION_INIT) {
             initLocation();
+            initWeather();
         }
     }
 
@@ -246,6 +254,22 @@ public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implem
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             mPhotoSize = mImgAdapter.refreshPicData(Matisse.obtainPathResult(data));
         }
+    }
+
+    /**
+     * 定位信息失败回调
+     */
+    @Override
+    public void onError(Throwable throwable) {
+
+    }
+
+    /**
+     * 定位信息成功回调
+     */
+    @Override
+    public void onSuccess(List<Now> list) {
+        if (list.size() > 0) mTv_weather.setText(list.get(0).getNow().getCond_txt());
     }
 
     /**

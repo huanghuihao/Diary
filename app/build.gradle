@@ -78,4 +78,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
     //权限
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+    //手势密码
+    implementation 'com.andrognito.patternlockview:patternlockview:1.0.0'
+    implementation 'com.andrognito.patternlockview:patternlockview-reactive:1.0.0'
 }
