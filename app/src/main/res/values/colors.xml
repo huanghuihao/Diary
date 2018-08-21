@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6699FF</color>
-    <color name="colorPrimaryDark">#6699FF</color>
-    <color name="colorAccent">#6699FF</color>
+    <color name="colorPrimary">#3C3C3C</color>
+    <color name="colorPrimaryDark">#3C3C3C</color>
+    <color name="colorAccent">#3C3C3C</color>
 
     <!--主题颜色-->
-    <color name="themeColor">#6699FF</color>
+    <color name="themeColor">#3C3C3C</color>
     <color name="themeTextColor">#ffffff</color>
 
-    <!--<color name="tab_checked">#ff9900</color>-->
-    <color name="tab_checked">#6699FF</color>
-    <color name="tab_unchecked">#757575</color>
+    <!--密码-->
+    <color name="pass_msg_color">#FFFFFF</color>
 
+    <!--选项卡-->
+    <color name="tab_checked">#6699FF</color>
+    <color name="tab_unchecked">#3C3C3C</color>
+
+    <!--输入-->
     <color name="input_hint_color">#cccccc</color>
     <color name="input_text_color">#666666</color>
     <color name="input_other_text_color">#999999</color>
 
+    <!--全局通用背景-->
     <color name="bg_color">#f2f2f2</color>
 
 </resources>

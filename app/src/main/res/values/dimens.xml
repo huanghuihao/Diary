@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--密码提示字体-->
+    <dimen name="password_msg_size">16sp</dimen>
+
+    <!--输入_字体-->
     <dimen name="input_text_size">15sp</dimen>
     <dimen name="input_other_text_size">14sp</dimen>
+
+    <!--设置_字体-->
     <dimen name="setting_item_size">16sp</dimen>
 
+    <!--标题_字体-->
     <dimen name="title_center">16sp</dimen>
     <dimen name="title_right">14sp</dimen>
 

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -228,7 +229,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     };
 
     /**
-     * 讯飞语音模块
+     * 讯飞语音_配置初始化
      */
     public void initSpeechSetting() {
         SpeechRecognizer mIat = SpeechRecognizer.createRecognizer(this, mInitListener);
@@ -258,8 +259,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     }
 
     /**
+     * 调用语音读写
      *
-     * @param speech
+     * @param speech 传入语音识别结果接口实现
      */
     protected void speech(ISpeech speech) {
         // 使用UI听写功能，请根据sdk文件目录下的notice.txt,放置布局文件和图片资源
@@ -284,7 +286,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     }
 
     /**
-     * 讯飞语音解析
+     * 讯飞语音_语音解析
      */
     private void printResult(RecognizerResult results, ISpeech speech) {
         String text = JsonParser.parseIatResult(results.getResultString());
@@ -344,7 +346,11 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
             public void onLocationChanged(AMapLocation aMapLocation) {
                 if (aMapLocation != null) {
                     if (aMapLocation.getErrorCode() == 0) {
-                        location.locationCallback(aMapLocation.getStreet() + " · " + aMapLocation.getAoiName());
+                        if (!TextUtils.isEmpty(aMapLocation.getStreet() + aMapLocation.getAoiName())) {
+                            location.locationCallback(aMapLocation.getStreet() + " · " + aMapLocation.getAoiName());
+                        } else {
+                            location.locationCallback("获取位置信息失败");
+                        }
                     } else {
                         Log.e("location", aMapLocation.getErrorCode() + "");
                         location.locationCallback("获取位置信息失败");
