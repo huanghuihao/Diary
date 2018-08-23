@@ -1,4 +1,4 @@
-package com.huanghh.diary.helper;
+package com.huanghh.diary.utils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

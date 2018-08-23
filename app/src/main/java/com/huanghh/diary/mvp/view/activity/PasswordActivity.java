@@ -1,11 +1,13 @@
 package com.huanghh.diary.mvp.view.activity;
 
+import android.content.Intent;
 import android.util.Log;
 
 import com.andrognito.patternlockview.PatternLockView;
 import com.andrognito.patternlockview.listener.PatternLockViewListener;
 import com.huanghh.diary.R;
 import com.huanghh.diary.base.BaseActivity;
+import com.huanghh.diary.base.DiaryApp;
 import com.huanghh.diary.di.component.DaggerPasswordComponent;
 import com.huanghh.diary.di.module.PasswordModule;
 import com.huanghh.diary.mvp.contract.PasswordContract;
@@ -27,7 +29,10 @@ public class PasswordActivity extends BaseActivity<PasswordPresenter> implements
 
     @Override
     protected void init() {
-        List<PatternLockView.Dot> list = new ArrayList<>();
+        if (!DiaryApp.mSharedPre.getBoolean("isLock")) {
+            startActivity(new Intent(this, HomeActivity.class));
+            this.finish();
+        }
         mLv_pass.addPatternLockListener(this);
     }
 

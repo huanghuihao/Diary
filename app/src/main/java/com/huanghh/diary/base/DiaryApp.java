@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.huanghh.diary.R;
 import com.huanghh.diary.dao.DaoMaster;
 import com.huanghh.diary.dao.DaoSession;
+import com.huanghh.diary.utils.SharedPreUtils;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.scwang.smartrefresh.header.PhoenixHeader;
@@ -16,9 +17,7 @@ import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
 import com.scwang.smartrefresh.layout.api.RefreshFooter;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.footer.FalsifyFooter;
 
 import org.greenrobot.greendao.database.Database;
 
@@ -32,11 +31,13 @@ public class DiaryApp extends Application {
     private static DaoSession mDaoSession;
     //静态单例
     public static DiaryApp instances;
+    public static SharedPreUtils mSharedPre;
 
 
     @Override
     public void onCreate() {
         super.onCreate();
+        mSharedPre = SharedPreUtils.getInstance("diary", this);
         instances = this;
         setDatabase();
         initXunFei();
@@ -110,7 +111,7 @@ public class DiaryApp extends Application {
         SpeechUtility.createUtility(this, SpeechConstant.APPID + "=5b6171de");
     }
 
-    private void initHf(){
-        HeConfig.init("HE1808091127431013","bb8eb9292e4d492b8d0bb411c753c7d7");
+    private void initHf() {
+        HeConfig.init("HE1808091127431013", "bb8eb9292e4d492b8d0bb411c753c7d7");
     }
 }

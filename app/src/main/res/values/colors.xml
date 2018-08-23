@@ -22,5 +22,8 @@
 
     <!--全局通用背景-->
     <color name="bg_color">#f2f2f2</color>
+    
+    设置手势圆点颜色
+    <color name="setting_pattern_color">#99FFFF</color>
 
 </resources>
