@@ -14,7 +14,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void init() {
-        startActivity(new Intent(this, PasswordActivity.class));
+        startActivity(new Intent(this, LockActivity.class));
         this.finish();
     }
 
