@@ -2,7 +2,7 @@ package com.huanghh.diary.mvp.presenter;
 
 import com.huanghh.diary.dao.DaoSession;
 import com.huanghh.diary.mvp.contract.DiaryPreviewContract;
-import com.huanghh.diary.mvp.model.DiaryItem;
+import com.huanghh.diary.mvp.model.Diary;
 
 public class DiaryPreviewPresenter extends BasePresenterImpl<DiaryPreviewContract.View> implements DiaryPreviewContract.Presenter {
     DaoSession mDao;
@@ -21,6 +21,6 @@ public class DiaryPreviewPresenter extends BasePresenterImpl<DiaryPreviewContrac
 
     @Override
     public void selectDetails() {
-        mView.setData(mDao.load(DiaryItem.class, id));
+        mView.setData(mDao.load(Diary.class, id));
     }
 }

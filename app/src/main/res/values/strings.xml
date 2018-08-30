@@ -26,12 +26,14 @@
     <string name="location">位置:</string>
     <string name="location_value">位置获取中</string>
     <string name="setting_pass">添加手势密码</string>
+    <string name="setting_pass_clean">清除手势密码</string>
     <string name="setting_feedback">反馈</string>
     <string name="setting_about">关于</string>
 
     <string name="error_gif">x or y bound size should be at least %1$dpx and file size should be no more than %2$sM</string>
     <!--手势密码hint-->
-    <string name="password_default">欢迎回来</string>
+    <string name="lock_default">欢迎回来</string>
+    <string name="lock_error">密码错误，请重试!</string>
     <!--设置手势密码-->
     <string name="msg_set_lock_first">请添加手势密码</string>
     <string name="msg_set_lock_second">请确认手势密码</string>

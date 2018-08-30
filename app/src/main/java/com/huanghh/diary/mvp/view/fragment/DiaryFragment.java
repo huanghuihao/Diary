@@ -16,7 +16,7 @@ import com.huanghh.diary.base.BaseFragment;
 import com.huanghh.diary.di.component.DaggerDiaryComponent;
 import com.huanghh.diary.di.module.DiaryModule;
 import com.huanghh.diary.mvp.contract.DiaryContract;
-import com.huanghh.diary.mvp.model.DiaryItem;
+import com.huanghh.diary.mvp.model.Diary;
 import com.huanghh.diary.mvp.presenter.DiaryPresenter;
 import com.huanghh.diary.mvp.view.activity.DiaryInputActivity;
 import com.huanghh.diary.mvp.view.activity.DiaryPreviewActivity;
@@ -41,7 +41,7 @@ public class DiaryFragment extends BaseFragment<DiaryPresenter> implements Diary
     SmartRefreshLayout mRefreshLayout;
     View mEmptyView;
     DiaryAdapter mAdapter;
-    List<DiaryItem> mData = new ArrayList<>();
+    List<Diary> mData = new ArrayList<>();
     private TextView mTv_empty;
     @BindString(R.string.empty_text_diary)
     String emptyStr;

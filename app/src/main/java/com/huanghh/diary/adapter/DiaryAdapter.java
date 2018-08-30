@@ -2,25 +2,23 @@ package com.huanghh.diary.adapter;
 
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.huanghh.diary.R;
-import com.huanghh.diary.mvp.model.DiaryItem;
+import com.huanghh.diary.mvp.model.Diary;
 
 import java.util.List;
 
-public class DiaryAdapter extends BaseQuickAdapter<DiaryItem, BaseViewHolder> {
-    public DiaryAdapter(int layoutResId, @Nullable List<DiaryItem> data) {
+public class DiaryAdapter extends BaseQuickAdapter<Diary, BaseViewHolder> {
+    public DiaryAdapter(int layoutResId, @Nullable List<Diary> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, DiaryItem item) {
+    protected void convert(BaseViewHolder helper, Diary item) {
         helper.setText(R.id.tv_title_diary, item.getTitle())
                 .setText(R.id.tv_content_diary, item.getContent())
                 .setText(R.id.tv_date_diary, item.getDate())

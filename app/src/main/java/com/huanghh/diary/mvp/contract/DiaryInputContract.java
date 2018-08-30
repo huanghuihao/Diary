@@ -1,6 +1,6 @@
 package com.huanghh.diary.mvp.contract;
 
-import com.huanghh.diary.mvp.model.DiaryItem;
+import com.huanghh.diary.mvp.model.Diary;
 import com.huanghh.diary.mvp.presenter.BasePresenter;
 import com.huanghh.diary.mvp.view.BaseView;
 
@@ -51,7 +51,7 @@ public interface DiaryInputContract {
          * @param isPublic  是否公开
          * @param localType 存储类型
          */
-        void save(DiaryItem diary,
+        void save(Diary diary,
                   String title,
                   String content,
                   String weather,

@@ -1,9 +1,9 @@
 package com.huanghh.diary.mvp.presenter;
 
 import com.huanghh.diary.dao.DaoSession;
-import com.huanghh.diary.dao.WeeItemDao;
+import com.huanghh.diary.dao.WeeDao;
 import com.huanghh.diary.mvp.contract.WeeContract;
-import com.huanghh.diary.mvp.model.WeeItem;
+import com.huanghh.diary.mvp.model.Wee;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class WeePresenter extends BasePresenterImpl<WeeContract.View> implements
     }
 
     @Override
-    public List<WeeItem> getRefreshData() {
+    public List<Wee> getRefreshData() {
         if (!isViewAttached()) {
             return null;
         }
@@ -33,12 +33,12 @@ public class WeePresenter extends BasePresenterImpl<WeeContract.View> implements
     }
 
     @Override
-    public List<WeeItem> getLocalData() {
-        return mDao.getWeeItemDao().queryBuilder().orderDesc(WeeItemDao.Properties.Id).offset(page * 10).limit(10).list();
+    public List<Wee> getLocalData() {
+        return mDao.getWeeDao().queryBuilder().orderDesc(WeeDao.Properties.Id).offset(page * 10).limit(10).list();
     }
 
     @Override
-    public List<WeeItem> getLoadMoreData() {
+    public List<Wee> getLoadMoreData() {
         page++;
         return getLocalData();
     }

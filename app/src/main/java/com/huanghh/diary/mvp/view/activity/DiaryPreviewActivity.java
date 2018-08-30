@@ -7,13 +7,12 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.huanghh.diary.R;
-import com.huanghh.diary.adapter.DiaryImagesAdapter;
 import com.huanghh.diary.adapter.ImgPreviewAdapter;
 import com.huanghh.diary.base.BaseActivity;
 import com.huanghh.diary.di.component.DaggerDiaryPreviewComponent;
 import com.huanghh.diary.di.module.DiaryPreviewModule;
 import com.huanghh.diary.mvp.contract.DiaryPreviewContract;
-import com.huanghh.diary.mvp.model.DiaryItem;
+import com.huanghh.diary.mvp.model.Diary;
 import com.huanghh.diary.mvp.presenter.DiaryPreviewPresenter;
 
 import java.util.ArrayList;
@@ -62,7 +61,7 @@ public class DiaryPreviewActivity extends BaseActivity<DiaryPreviewPresenter> im
     }
 
     @Override
-    public void setData(DiaryItem diary) {
+    public void setData(Diary diary) {
         mTv_title.setText(diary.getTitle());
         mTv_content.setText(diary.getContent());
         mTv_weather.setText(diary.getWeather());

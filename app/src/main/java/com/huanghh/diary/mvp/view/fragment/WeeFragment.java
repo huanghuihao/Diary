@@ -15,13 +15,12 @@ import com.huanghh.diary.base.BaseFragment;
 import com.huanghh.diary.di.component.DaggerWeeComponent;
 import com.huanghh.diary.di.module.WeeModule;
 import com.huanghh.diary.mvp.contract.WeeContract;
-import com.huanghh.diary.mvp.model.WeeItem;
+import com.huanghh.diary.mvp.model.Wee;
 import com.huanghh.diary.mvp.presenter.WeePresenter;
 import com.huanghh.diary.mvp.view.activity.WeeInputActivity;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
@@ -41,7 +40,7 @@ public class WeeFragment extends BaseFragment<WeePresenter> implements WeeContra
     RecyclerView mRecyclerView;
     View mEmptyView;
     WeeAdapter mAdapter;
-    List<WeeItem> mData = new ArrayList<>();
+    List<Wee> mData = new ArrayList<>();
     private TextView mTv_empty;
     @BindString(R.string.empty_text_wee)
     String emptyStr;

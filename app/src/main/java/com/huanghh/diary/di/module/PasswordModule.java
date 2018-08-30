@@ -1,8 +1,8 @@
 package com.huanghh.diary.di.module;
 
 import com.huanghh.diary.dao.DaoSession;
-import com.huanghh.diary.mvp.contract.PasswordContract;
-import com.huanghh.diary.mvp.presenter.PasswordPresenter;
+import com.huanghh.diary.mvp.contract.LockContract;
+import com.huanghh.diary.mvp.presenter.LockPresenter;
 
 import javax.inject.Singleton;
 
@@ -11,15 +11,15 @@ import dagger.Provides;
 
 @Module
 public class PasswordModule {
-    private PasswordPresenter mPresenter;
+    private LockPresenter mPresenter;
 
-    public PasswordModule(PasswordContract.View view, DaoSession dao) {
-        mPresenter = new PasswordPresenter(view, dao);
+    public PasswordModule(LockContract.View view, DaoSession dao) {
+        mPresenter = new LockPresenter(view, dao);
     }
 
     @Singleton
     @Provides
-    PasswordPresenter providePasswordPresenter() {
+    LockPresenter providePasswordPresenter() {
         return mPresenter;
     }
 }

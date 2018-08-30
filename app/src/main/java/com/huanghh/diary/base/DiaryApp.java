@@ -112,6 +112,6 @@ public class DiaryApp extends Application {
     }
 
     private void initHf() {
-        HeConfig.init("HE1808091127431013", "bb8eb9292e4d492b8d0bb411c753c7d7");
+        HeConfig.init("HE1808091127431013", "573178b285d54596b622b860c9867647");
     }
 }

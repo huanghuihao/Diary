@@ -11,15 +11,17 @@ import com.huanghh.diary.R;
 import com.huanghh.diary.base.BaseActivity;
 import com.huanghh.diary.di.component.DaggerSettingLockComponent;
 import com.huanghh.diary.di.module.SettingLockModule;
+import com.huanghh.diary.interfaces.IDialogClick;
 import com.huanghh.diary.mvp.contract.SettingLockContract;
 import com.huanghh.diary.mvp.presenter.SettingLockPresenter;
+import com.huanghh.diary.widget.ConfirmDialog;
 
 import java.util.List;
 
 import butterknife.BindString;
 import butterknife.BindView;
 
-public class SettingLockActivity extends BaseActivity<SettingLockPresenter> implements SettingLockContract.View, PatternLockViewListener {
+public class SettingLockActivity extends BaseActivity<SettingLockPresenter> implements SettingLockContract.View, PatternLockViewListener, IDialogClick {
     @BindView(R.id.tv_hint_settingLock)
     TextView mTv_hint;
     @BindView(R.id.pLockView_settingLock)
@@ -75,30 +77,16 @@ public class SettingLockActivity extends BaseActivity<SettingLockPresenter> impl
     }
 
     @Override
-    public void onStarted() {
-
-    }
-
-    @Override
-    public void onProgress(List<PatternLockView.Dot> progressPattern) {
-
-    }
-
-    @Override
     public void onComplete(List<PatternLockView.Dot> pattern) {
         String temp = PatternLockUtils.patternToString(mLockView, pattern);
 
         checkPatternLock(pattern, temp);
     }
 
-    @Override
-    public void onCleared() {
-
-    }
-
     private String mLockTemp;
 
     /**
+     * PatternLockView监听器
      * 根据是否存在手势密码，增加校验检查逻辑
      * true : 先确认原手势是否正确，正确添加新密码方法
      * false: 正确添加新密码方法
@@ -111,7 +99,7 @@ public class SettingLockActivity extends BaseActivity<SettingLockPresenter> impl
             //有手势密码场景
             if (mPatternLockStr.equals(temp)) {
                 mTv_hint.setText(hint_first);
-                addNewPattern(temp);
+                mIsHasLock = false;
             } else {
                 mTv_hint.setText(hint_old_error);
             }
@@ -136,11 +124,37 @@ public class SettingLockActivity extends BaseActivity<SettingLockPresenter> impl
             //二次获取手势
             if (mLockTemp.equals(temp)) {
                 mPresenter.setPatternLock(temp);
-                showToast("添加密码成功");
+                showConfirmDialog("温馨提示", "由于本应用是单机版本，暂无服务器，" +
+                        "如遇忘记手势密码情况，请在输入手势密码界面点击logo：5次可取消手势密码！", this);
             } else {
                 mTv_hint.setText(hint_change);
             }
         }
     }
 
+    /**
+     * dialog 点击确定 接口回调
+     */
+    @Override
+    public void confirmClickCallback() {
+        this.finish();
+    }
+
+    /**
+     * PatternLockView 监听器
+     */
+    @Override
+    public void onCleared() {
+
+    }
+
+    @Override
+    public void onStarted() {
+
+    }
+
+    @Override
+    public void onProgress(List<PatternLockView.Dot> progressPattern) {
+
+    }
 }

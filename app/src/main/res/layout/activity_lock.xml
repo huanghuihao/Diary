@@ -13,7 +13,7 @@
         android:visibility="gone" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/img_icon_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -36,13 +36,13 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/password_default"
+        android:text="@string/lock_default"
         android:textColor="@color/pass_msg_color"
         android:textSize="@dimen/password_msg_size"
         app:layout_constraintBottom_toTopOf="@+id/lv_passWord"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/img_icon_logo" />
 
     <com.andrognito.patternlockview.PatternLockView
         android:id="@+id/lv_passWord"

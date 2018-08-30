@@ -1,6 +1,6 @@
 package com.huanghh.diary.mvp.contract;
 
-import com.huanghh.diary.mvp.model.DiaryItem;
+import com.huanghh.diary.mvp.model.Diary;
 import com.huanghh.diary.mvp.presenter.BasePresenter;
 import com.huanghh.diary.mvp.view.BaseView;
 
@@ -15,10 +15,10 @@ public interface DiaryContract {
 
     //presenter分页，需要入参页码
     interface Presenter extends BasePresenter {
-        List<DiaryItem> getRefreshData();
+        List<Diary> getRefreshData();
 
-        List<DiaryItem> getLocalData();
+        List<Diary> getLocalData();
 
-        List<DiaryItem> getLoadMoreData();
+        List<Diary> getLoadMoreData();
     }
 }

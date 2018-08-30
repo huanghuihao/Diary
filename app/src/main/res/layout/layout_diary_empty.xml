@@ -23,7 +23,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/empty_icon_diary" />
+            android:src="@mipmap/ic_launcher" />
 
         <TextView
             android:id="@+id/tv_description_empty"

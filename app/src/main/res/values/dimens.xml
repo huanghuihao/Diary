@@ -18,4 +18,9 @@
     <dimen name="grid_expected_size">120dp</dimen>
     <dimen name="item_margin_horizontal">24dp</dimen>
     <dimen name="item_margin_vertical">8dp</dimen>
+
+    <!--dialog字体-->
+    <dimen name="dialog_title_size">16sp</dimen>
+    <dimen name="dialog_content_size">14sp</dimen>
+    <dimen name="dialog_button_size">14sp</dimen>
 </resources>

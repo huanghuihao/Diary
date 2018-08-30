@@ -1,40 +1,35 @@
 package com.huanghh.diary.mvp.model;
 
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
-
-import java.util.List;
+import org.greenrobot.greendao.annotation.Generated;
 
 @Entity
-public class DiaryItem {
+public class Wee {
     @Id(autoincrement = true)
-    public Long id;
+    private Long id;
     /**
-     * 标题、内容、时间、天气、位置、是否公开、存储状态(-1-本地暂存;0-本地完成;1-服务器;2-提交服务器失败;)
+     * 内容、时间、位置、是否公开、存储状态(-1-本地暂存;0-本地完成;1-服务器;2-提交服务器失败;)
      */
-    private String title, content, date, weather, location;
-    private String pics;
+    private String content;
+    private String date;
+    private String location;
     private boolean isPublic;
     private int localType;
 
-    @Generated(hash = 226567806)
-    public DiaryItem(Long id, String title, String content, String date,
-                     String weather, String location, String pics, boolean isPublic,
-                     int localType) {
+    @Generated(hash = 988211675)
+    public Wee(Long id, String content, String date, String location,
+               boolean isPublic, int localType) {
         this.id = id;
-        this.title = title;
         this.content = content;
         this.date = date;
-        this.weather = weather;
         this.location = location;
-        this.pics = pics;
         this.isPublic = isPublic;
         this.localType = localType;
     }
 
-    @Generated(hash = 325077529)
-    public DiaryItem() {
+    @Generated(hash = 2020539553)
+    public Wee() {
     }
 
     public Long getId() {
@@ -43,14 +38,6 @@ public class DiaryItem {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return this.title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getContent() {
@@ -69,28 +56,12 @@ public class DiaryItem {
         this.date = date;
     }
 
-    public String getWeather() {
-        return this.weather;
-    }
-
-    public void setWeather(String weather) {
-        this.weather = weather;
-    }
-
     public String getLocation() {
         return this.location;
     }
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public String getPics() {
-        return this.pics;
-    }
-
-    public void setPics(String pics) {
-        this.pics = pics;
     }
 
     public boolean getIsPublic() {
@@ -108,6 +79,4 @@ public class DiaryItem {
     public void setLocalType(int localType) {
         this.localType = localType;
     }
-
-
 }

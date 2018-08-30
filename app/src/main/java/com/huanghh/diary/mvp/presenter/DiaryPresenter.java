@@ -1,9 +1,9 @@
 package com.huanghh.diary.mvp.presenter;
 
 import com.huanghh.diary.dao.DaoSession;
-import com.huanghh.diary.dao.DiaryItemDao;
+import com.huanghh.diary.dao.DiaryDao;
 import com.huanghh.diary.mvp.contract.DiaryContract;
-import com.huanghh.diary.mvp.model.DiaryItem;
+import com.huanghh.diary.mvp.model.Diary;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class DiaryPresenter extends BasePresenterImpl<DiaryContract.View> implem
     }
 
     @Override
-    public List<DiaryItem> getRefreshData() {
+    public List<Diary> getRefreshData() {
         if (!isViewAttached()) {
             return null;
         }
@@ -33,12 +33,12 @@ public class DiaryPresenter extends BasePresenterImpl<DiaryContract.View> implem
     }
 
     @Override
-    public List<DiaryItem> getLocalData() {
-        return mDao.getDiaryItemDao().queryBuilder().orderDesc(DiaryItemDao.Properties.Id).offset(page * 10).limit(10).list();
+    public List<Diary> getLocalData() {
+        return mDao.getDiaryDao().queryBuilder().orderDesc(DiaryDao.Properties.Id).offset(page * 10).limit(10).list();
     }
 
     @Override
-    public List<DiaryItem> getLoadMoreData() {
+    public List<Diary> getLoadMoreData() {
         page++;
         return getLocalData();
     }

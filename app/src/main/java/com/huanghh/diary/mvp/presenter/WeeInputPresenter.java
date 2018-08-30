@@ -2,8 +2,7 @@ package com.huanghh.diary.mvp.presenter;
 
 import com.huanghh.diary.dao.DaoSession;
 import com.huanghh.diary.mvp.contract.WeeInputContract;
-import com.huanghh.diary.mvp.model.DiaryItem;
-import com.huanghh.diary.mvp.model.WeeItem;
+import com.huanghh.diary.mvp.model.Wee;
 
 public class WeeInputPresenter extends BasePresenterImpl<WeeInputContract.View> implements WeeInputContract.Presenter {
     private DaoSession mDao;
@@ -19,7 +18,7 @@ public class WeeInputPresenter extends BasePresenterImpl<WeeInputContract.View> 
     }
 
     @Override
-    public void saveToLocal(WeeItem wee, int type) {
+    public void saveToLocal(Wee wee, int type) {
         wee.setLocalType(type);
         switch (type) {
             case 0:

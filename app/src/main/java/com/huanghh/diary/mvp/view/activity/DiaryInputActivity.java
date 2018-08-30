@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.huanghh.diary.R;
 import com.huanghh.diary.adapter.DiaryImagesAdapter;
@@ -20,7 +19,7 @@ import com.huanghh.diary.di.module.DiaryInputModule;
 import com.huanghh.diary.interfaces.ILocation;
 import com.huanghh.diary.interfaces.ISpeech;
 import com.huanghh.diary.mvp.contract.DiaryInputContract;
-import com.huanghh.diary.mvp.model.DiaryItem;
+import com.huanghh.diary.mvp.model.Diary;
 import com.huanghh.diary.mvp.presenter.DiaryInputPresenter;
 import com.huanghh.diary.widget.GifSizeFilter;
 import com.huanghh.diary.widget.Glide4Engine;
@@ -61,7 +60,7 @@ public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implem
     private static final int PERMISSION_SPEECH = 0x003;
 
     private static final int REQUEST_CODE_CHOOSE = 0x00001;
-    DiaryItem mDiary;
+    Diary mDiary;
     private int mPhotoSize = 9;
 
     @Override
@@ -129,8 +128,8 @@ public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implem
      * 对传入暂存对象进行解析
      */
     private void getIntentData() {
-        mDiary = (DiaryItem) getIntent().getSerializableExtra("diary");
-        if (mDiary == null) mDiary = new DiaryItem();
+        mDiary = (Diary) getIntent().getSerializableExtra("diary");
+        if (mDiary == null) mDiary = new Diary();
         mPics.add("empty");
     }
 
@@ -261,7 +260,7 @@ public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implem
      */
     @Override
     public void onError(Throwable throwable) {
-
+        Log.e("Log", "onError: ", throwable);
     }
 
     /**

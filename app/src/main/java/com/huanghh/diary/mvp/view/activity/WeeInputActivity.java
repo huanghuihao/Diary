@@ -1,5 +1,6 @@
 package com.huanghh.diary.mvp.view.activity;
 
+import android.Manifest;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -9,9 +10,10 @@ import com.huanghh.diary.R;
 import com.huanghh.diary.base.BaseActivity;
 import com.huanghh.diary.di.component.DaggerWeeInputComponent;
 import com.huanghh.diary.di.module.WeeInputModule;
+import com.huanghh.diary.interfaces.ILocation;
 import com.huanghh.diary.interfaces.ISpeech;
 import com.huanghh.diary.mvp.contract.WeeInputContract;
-import com.huanghh.diary.mvp.model.WeeItem;
+import com.huanghh.diary.mvp.model.Wee;
 import com.huanghh.diary.mvp.presenter.WeeInputPresenter;
 
 import org.greenrobot.eventbus.EventBus;
@@ -20,16 +22,17 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class WeeInputActivity extends BaseActivity<WeeInputPresenter> implements WeeInputContract.View, ISpeech {
+public class WeeInputActivity extends BaseActivity<WeeInputPresenter> implements WeeInputContract.View, ISpeech, ILocation {
     @BindView(R.id.et_content_wee_input)
     EditText mEt_content;
     @BindView(R.id.tv_location_value_wee_input)
     TextView mTv_location;
     @BindView(R.id.tv_isPublic_value_wee_input)
     TextView mTv_isPublic;
-    WeeItem mWee;
+    Wee mWee;
     @BindString(R.string.right_text)
     String right_text;
+    private static final int PERMISSION_INIT = 0x0001;
 
     @Override
     protected int setContentLayoutRes() {
@@ -38,12 +41,10 @@ public class WeeInputActivity extends BaseActivity<WeeInputPresenter> implements
 
     @Override
     protected void init() {
-        leftIsVisibility(View.VISIBLE);
-        rightIsVisibility(View.VISIBLE);
-        setRightText(right_text);
-        setTitle("写点滴");
+        initPermissions();
+        initTitle();
+        initSpeech();
         getIntentData();
-        initSpeechSetting();
     }
 
     @Override
@@ -51,12 +52,30 @@ public class WeeInputActivity extends BaseActivity<WeeInputPresenter> implements
         DaggerWeeInputComponent.builder().weeInputModule(new WeeInputModule(this, mDao)).build().inject(this);
     }
 
+    private void initPermissions() {
+        checkPermissions(PERMISSION_INIT, Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+    }
+
+    private void initTitle(){
+        leftIsVisibility(View.VISIBLE);
+        rightIsVisibility(View.VISIBLE);
+        setRightText(right_text);
+        setTitle("写点滴");
+    }
+
+    private void initSpeech(){
+        initSpeechSetting();
+    }
+
     /**
      * 对传入暂存对象进行解析
      */
     private void getIntentData() {
-        mWee = (WeeItem) getIntent().getSerializableExtra("wee");
-        if (mWee == null) mWee = new WeeItem();
+        mWee = (Wee) getIntent().getSerializableExtra("wee");
+        if (mWee == null) mWee = new Wee();
     }
 
     @Override
@@ -109,5 +128,38 @@ public class WeeInputActivity extends BaseActivity<WeeInputPresenter> implements
     @Override
     public void saveFinish() {
         this.finish();
+    }
+
+    /**
+     * 初始化定位模块，需要在权限(成功、失败回调后都调定位，结果可以直接更新到view)申请后触发定位
+     */
+    private void initLocation() {
+        initLocationOption();
+        loadLocation(this);
+    }
+
+    @Override
+    protected void permissionsGranted(int perCode) {
+        super.permissionsGranted(perCode);
+        switch (perCode){
+            case PERMISSION_INIT:
+                initLocation();
+                break;
+        }
+    }
+
+    @Override
+    protected void permissionsRejected(int perCode) {
+        super.permissionsRejected(perCode);
+        switch (perCode){
+            case PERMISSION_INIT:
+                initLocation();
+                break;
+        }
+    }
+
+    @Override
+    public void locationCallback(String location) {
+        mTv_location.setText(location);
     }
 }

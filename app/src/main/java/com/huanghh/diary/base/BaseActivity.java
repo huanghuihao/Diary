@@ -19,11 +19,14 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.huanghh.diary.R;
 import com.huanghh.diary.dao.DaoSession;
+import com.huanghh.diary.interfaces.IDialogClick;
 import com.huanghh.diary.utils.JsonParser;
 import com.huanghh.diary.interfaces.ILocation;
 import com.huanghh.diary.interfaces.ISpeech;
 import com.huanghh.diary.mvp.presenter.BasePresenter;
 import com.huanghh.diary.mvp.view.BaseView;
+import com.huanghh.diary.widget.CancelDialog;
+import com.huanghh.diary.widget.ConfirmDialog;
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.InitListener;
 import com.iflytek.cloud.RecognizerResult;
@@ -200,6 +203,23 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     @Override
     public void showError() {
         showToast("其它错误!");
+    }
+
+    private CancelDialog mCancelDialog;
+    private ConfirmDialog mConfirmDialog;
+
+    protected void showCancelDialog(String title, String content, IDialogClick iDialogClick) {
+        if (mCancelDialog == null) {
+            mCancelDialog = new CancelDialog(this, title, content, iDialogClick);
+        }
+        mCancelDialog.show();
+    }
+
+    protected void showConfirmDialog(String title, String content, IDialogClick iDialogClick) {
+        if (mConfirmDialog == null) {
+            mConfirmDialog = new ConfirmDialog(this, title, content, iDialogClick);
+        }
+        mConfirmDialog.show();
     }
 
     protected void permissionsGranted(int perCode) {

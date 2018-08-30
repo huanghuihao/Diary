@@ -3,7 +3,7 @@ package com.huanghh.diary.mvp.presenter;
 import com.blankj.utilcode.util.TimeUtils;
 import com.huanghh.diary.dao.DaoSession;
 import com.huanghh.diary.mvp.contract.DiaryInputContract;
-import com.huanghh.diary.mvp.model.DiaryItem;
+import com.huanghh.diary.mvp.model.Diary;
 
 import java.util.List;
 
@@ -58,7 +58,7 @@ public class DiaryInputPresenter extends BasePresenterImpl<DiaryInputContract.Vi
     }
 
     @Override
-    public void save(DiaryItem diary, String title, String content, String weather, String location,
+    public void save(Diary diary, String title, String content, String weather, String location,
                      List<String> pics, boolean isPublic, int localType) {
         if (checkInput(title, content)) {
             diary.setTitle(title);

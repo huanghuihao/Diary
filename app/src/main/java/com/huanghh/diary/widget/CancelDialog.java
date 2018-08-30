@@ -11,12 +11,11 @@ import android.widget.TextView;
 import com.huanghh.diary.R;
 import com.huanghh.diary.interfaces.IDialogClick;
 
-public class ConfirmDialog extends Dialog implements View.OnClickListener {
+public class CancelDialog extends Dialog implements View.OnClickListener {
     private String mTitle, mContent;
     private IDialogClick mDialogCallback;
-    private TextView mTv_title, mTv_content;
 
-    public ConfirmDialog(@NonNull Context context, String title, String content
+    public CancelDialog(@NonNull Context context, String title, String content
             , IDialogClick dialogClick) {
         super(context, R.style.dialog);
         this.mTitle = title;
@@ -27,38 +26,41 @@ public class ConfirmDialog extends Dialog implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_dialog_confirm);
+        setContentView(R.layout.layout_dialog_cancel);
         setCanceledOnTouchOutside(false);
         initView();
     }
 
-    public ConfirmDialog setTitle(String title) {
-        mTv_title.setText(title);
+    public CancelDialog setTitle(String title) {
+        mTitle = title;
         return this;
     }
 
-    public ConfirmDialog setContent(String content) {
-        mTv_content.setText(content);
+    public CancelDialog setContent(String content) {
+        mContent = content;
         return this;
     }
 
     private void initView() {
-        mTv_title = findViewById(R.id.tv_title_dialog_cancel);
-        mTv_content = findViewById(R.id.tv_content_dialog_cancel);
+        TextView tvTitle = findViewById(R.id.tv_title_dialog_cancel);
+        TextView tvContent = findViewById(R.id.tv_content_dialog_cancel);
+        findViewById(R.id.btn_cancel_dialog_cancel).setOnClickListener(this);
         findViewById(R.id.btn_confirm_dialog_cancel).setOnClickListener(this);
 
 
         if (!TextUtils.isEmpty(mTitle)) {
-            mTv_title.setText(mTitle);
+            tvTitle.setText(mTitle);
         }
         if (!TextUtils.isEmpty(mContent)) {
-            mTv_content.setText(mContent);
+            tvContent.setText(mContent);
         }
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.btn_cancel_dialog_cancel:
+                break;
             case R.id.btn_confirm_dialog_cancel:
                 mDialogCallback.confirmClickCallback();
                 break;
