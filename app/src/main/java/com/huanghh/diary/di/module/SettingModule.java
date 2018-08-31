@@ -13,7 +13,7 @@ public class SettingModule {
     private SettingPresenter mPresenter;
 
     public SettingModule(SettingContract.View view) {
-        mPresenter = new SettingPresenter();
+        mPresenter = new SettingPresenter(view);
     }
 
     @Singleton

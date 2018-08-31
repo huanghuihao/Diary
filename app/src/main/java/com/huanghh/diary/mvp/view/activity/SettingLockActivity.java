@@ -38,6 +38,7 @@ public class SettingLockActivity extends BaseActivity<SettingLockPresenter> impl
     String hint_old_error;
     boolean mIsHasLock;
     String mPatternLockStr;
+    private boolean isClean = false;
 
     @Override
     protected int setContentLayoutRes() {
@@ -48,6 +49,7 @@ public class SettingLockActivity extends BaseActivity<SettingLockPresenter> impl
     protected void init() {
         initTitle();
         mLockView.addPatternLockListener(this);
+        getIntentData();
     }
 
     @Override
@@ -62,6 +64,10 @@ public class SettingLockActivity extends BaseActivity<SettingLockPresenter> impl
         leftIsVisibility(View.VISIBLE);
         rightIsVisibility(View.INVISIBLE);
         setTitle("设置手势密码");
+    }
+
+    private void getIntentData() {
+        isClean = getIntent().getBooleanExtra("isClean", false);
     }
 
     @Override
@@ -79,7 +85,6 @@ public class SettingLockActivity extends BaseActivity<SettingLockPresenter> impl
     @Override
     public void onComplete(List<PatternLockView.Dot> pattern) {
         String temp = PatternLockUtils.patternToString(mLockView, pattern);
-
         checkPatternLock(pattern, temp);
     }
 
@@ -98,8 +103,13 @@ public class SettingLockActivity extends BaseActivity<SettingLockPresenter> impl
         if (mIsHasLock) {
             //有手势密码场景
             if (mPatternLockStr.equals(temp)) {
-                mTv_hint.setText(hint_first);
-                mIsHasLock = false;
+                if (isClean) {
+                    mPresenter.cleanPattern();
+                    showConfirmDialog("温馨提示", "手势密码已经清除！", this);
+                } else {
+                    mTv_hint.setText(hint_first);
+                    mIsHasLock = false;
+                }
             } else {
                 mTv_hint.setText(hint_old_error);
             }

@@ -25,7 +25,7 @@
     <string name="weather_value">天气获取中</string>
     <string name="location">位置:</string>
     <string name="location_value">位置获取中</string>
-    <string name="setting_pass">添加手势密码</string>
+    <string name="setting_pass">添加/修改手势密码</string>
     <string name="setting_pass_clean">清除手势密码</string>
     <string name="setting_feedback">反馈</string>
     <string name="setting_about">关于</string>

@@ -34,16 +34,28 @@ public class SettingFragment extends BaseFragment<SettingPresenter> implements S
         DaggerSettingComponent.builder().settingModule(new SettingModule(this)).build().inject(this);
     }
 
-    @OnClick({R.id.rl_lock_setting, R.id.rl_feedback_setting, R.id.rl_about_setting})
+    @OnClick({R.id.rl_lock_setting, R.id.rl_lock_clean_setting, R.id.rl_feedback_setting, R.id.rl_about_setting})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_lock_setting:
-                startActivity(new Intent(mParentActivity, SettingLockActivity.class));
+                startActivity(new Intent(mParentActivity, SettingLockActivity.class).putExtra("isClean", false));
+                break;
+            case R.id.rl_lock_clean_setting:
+                mPresenter.cleanPattern();
                 break;
             case R.id.rl_feedback_setting:
                 break;
             case R.id.rl_about_setting:
                 break;
+        }
+    }
+
+    @Override
+    public void cleanResult(boolean hasPattern) {
+        if (hasPattern) {
+            startActivity(new Intent(mParentActivity, SettingLockActivity.class).putExtra("isClean", true));
+        } else {
+            showToast("您没有手势密码！");
         }
     }
 }

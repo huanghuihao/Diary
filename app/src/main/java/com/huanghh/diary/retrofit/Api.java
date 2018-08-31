@@ -7,8 +7,8 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Api {
-
-    public static final String BASE_URL = "http://www.wanandroid.com";
+    //和风天气url
+    public static final String BASE_URL = "https://free-api.heweather.com";
 
     private static ApiService apiService;
 

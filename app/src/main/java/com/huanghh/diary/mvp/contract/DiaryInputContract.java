@@ -12,6 +12,15 @@ public interface DiaryInputContract {
          * 回调返回界面，并通知diaryFragment刷新数据源
          */
         void saveFinish();
+
+        /**
+         * 获取天气接口返回
+         *
+         * @param weather 对象.getNow拿到实时天气数据结果
+         */
+        void getWeatherResult(String weather);
+
+        void getWeatherError(Throwable e);
     }
 
     interface Presenter extends BasePresenter {
@@ -59,5 +68,7 @@ public interface DiaryInputContract {
                   List<String> pics,
                   boolean isPublic,
                   int localType);
+
+        void getWeatherWithLocation(String location);
     }
 }

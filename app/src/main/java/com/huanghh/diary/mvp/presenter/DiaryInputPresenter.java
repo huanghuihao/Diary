@@ -1,9 +1,15 @@
 package com.huanghh.diary.mvp.presenter;
 
+import android.util.Log;
+
 import com.blankj.utilcode.util.TimeUtils;
 import com.huanghh.diary.dao.DaoSession;
+import com.huanghh.diary.interfaces.IJsonResultListener;
+import com.huanghh.diary.interfaces.JsonResultResponse;
 import com.huanghh.diary.mvp.contract.DiaryInputContract;
 import com.huanghh.diary.mvp.model.Diary;
+import com.huanghh.diary.mvp.model.WeatherResponse;
+import com.huanghh.diary.retrofit.ApiMethods;
 
 import java.util.List;
 
@@ -73,5 +79,31 @@ public class DiaryInputPresenter extends BasePresenterImpl<DiaryInputContract.Vi
 
             mView.saveFinish();
         }
+    }
+
+    @Override
+    public void getWeatherWithLocation(String location) {
+        Log.e("请求天气信息", location);
+        ApiMethods.getNowWeather(location, new JsonResultResponse<WeatherResponse>(new IJsonResultListener<WeatherResponse>() {
+            @Override
+            public void start() {
+
+            }
+
+            @Override
+            public void onComplete(WeatherResponse weatherWeatherBaseResponse) {
+                mView.getWeatherResult(weatherWeatherBaseResponse.getHeWeather6().get(0).getNow().getCond_txt());
+            }
+
+            @Override
+            public void finish() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mView.getWeatherError(e);
+            }
+        }));
     }
 }

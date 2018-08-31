@@ -21,8 +21,6 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 
 import org.greenrobot.greendao.database.Database;
 
-import interfaces.heweather.com.interfacesmodule.view.HeConfig;
-
 public class DiaryApp extends Application {
     //数据库
     private DaoMaster.DevOpenHelper mHelper;
@@ -41,7 +39,6 @@ public class DiaryApp extends Application {
         instances = this;
         setDatabase();
         initXunFei();
-        initHf();
     }
 
     @Override
@@ -110,8 +107,5 @@ public class DiaryApp extends Application {
     private void initXunFei() {
         SpeechUtility.createUtility(this, SpeechConstant.APPID + "=5b6171de");
     }
-
-    private void initHf() {
-        HeConfig.init("HE1808091127431013", "573178b285d54596b622b860c9867647");
-    }
 }
+

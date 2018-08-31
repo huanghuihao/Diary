@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -35,10 +34,8 @@ import java.util.List;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.OnClick;
-import interfaces.heweather.com.interfacesmodule.bean.weather.now.Now;
-import interfaces.heweather.com.interfacesmodule.view.HeWeather;
 
-public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implements DiaryInputContract.View, BaseQuickAdapter.OnItemClickListener, ILocation, ISpeech, HeWeather.OnResultWeatherNowBeanListener {
+public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implements DiaryInputContract.View, BaseQuickAdapter.OnItemClickListener, ILocation, ISpeech {
     @BindView(R.id.et_title_diary_input)
     EditText mEt_title;
     @BindView(R.id.et_content_diary_input)
@@ -103,10 +100,6 @@ public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implem
         mImgAdapter.setOnItemClickListener(this);
         mRvPics.setLayoutManager(new GridLayoutManager(this, 4));
         mRvPics.setAdapter(mImgAdapter);
-    }
-
-    private void initWeather() {
-        HeWeather.getWeatherNow(this, this);
     }
 
     /**
@@ -219,7 +212,6 @@ public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implem
         switch (perCode) {
             case PERMISSION_INIT:
                 initLocation();
-                initWeather();
                 break;
             case PERMISSION_PHOTO:
                 chosePhoto();
@@ -237,7 +229,6 @@ public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implem
     protected void permissionsRejected(int perCode) {
         if (perCode == PERMISSION_INIT) {
             initLocation();
-            initWeather();
         }
     }
 
@@ -256,29 +247,24 @@ public class DiaryInputActivity extends BaseActivity<DiaryInputPresenter> implem
     }
 
     /**
-     * 定位信息失败回调
-     */
-    @Override
-    public void onError(Throwable throwable) {
-        Log.e("Log", "onError: ", throwable);
-    }
-
-    /**
-     * 定位信息成功回调
-     */
-    @Override
-    public void onSuccess(List<Now> list) {
-        if (list.size() > 0) mTv_weather.setText(list.get(0).getNow().getCond_txt());
-    }
-
-    /**
      * 定位信息回调
      *
      * @param location 返回定位信息 街道+aoiName
      */
     @Override
-    public void locationCallback(String location) {
+    public void locationCallback(String location, String latLon) {
         mTv_location.setText(location);
+        mPresenter.getWeatherWithLocation(latLon);
+    }
+
+    @Override
+    public void getWeatherResult(String weather) {
+        mTv_weather.setText(weather);
+    }
+
+    @Override
+    public void getWeatherError(Throwable e) {
+        mTv_weather.setText("获取天气失败");
     }
 
     /**

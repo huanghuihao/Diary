@@ -366,13 +366,13 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
                 if (aMapLocation != null) {
                     if (aMapLocation.getErrorCode() == 0) {
                         if (!TextUtils.isEmpty(aMapLocation.getStreet() + aMapLocation.getAoiName())) {
-                            location.locationCallback(aMapLocation.getStreet() + " · " + aMapLocation.getAoiName());
+                            location.locationCallback(aMapLocation.getStreet() + " · " + aMapLocation.getAoiName(), aMapLocation.getLongitude() + "," + aMapLocation.getLatitude());
                         } else {
-                            location.locationCallback("获取位置信息失败");
+                            location.locationCallback("获取位置信息失败", "");
                         }
                     } else {
                         Log.e("location", aMapLocation.getErrorCode() + "");
-                        location.locationCallback("获取位置信息失败");
+                        location.locationCallback("获取位置信息失败", "");
                     }
                 }
             }

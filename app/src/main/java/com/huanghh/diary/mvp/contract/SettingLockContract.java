@@ -14,5 +14,7 @@ public interface SettingLockContract {
         String getLockStr();
 
         void setPatternLock(String pattern);
+
+        void cleanPattern();
     }
 }

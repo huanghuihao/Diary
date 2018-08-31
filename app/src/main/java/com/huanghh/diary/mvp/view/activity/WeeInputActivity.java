@@ -159,7 +159,7 @@ public class WeeInputActivity extends BaseActivity<WeeInputPresenter> implements
     }
 
     @Override
-    public void locationCallback(String location) {
+    public void locationCallback(String location,String latLon) {
         mTv_location.setText(location);
     }
 }

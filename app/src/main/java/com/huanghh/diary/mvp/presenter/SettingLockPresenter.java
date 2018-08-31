@@ -4,6 +4,7 @@ import com.huanghh.diary.base.DiaryApp;
 import com.huanghh.diary.mvp.contract.SettingLockContract;
 
 public class SettingLockPresenter extends BasePresenterImpl<SettingLockContract.View> implements SettingLockContract.Presenter {
+
     public SettingLockPresenter(SettingLockContract.View view) {
         mView = view;
     }
@@ -31,5 +32,11 @@ public class SettingLockPresenter extends BasePresenterImpl<SettingLockContract.
     public void setPatternLock(String pattern) {
         DiaryApp.mSharedPre.putBoolean("isLock", true);
         DiaryApp.mSharedPre.putString("lockStr", pattern);
+    }
+
+    @Override
+    public void cleanPattern() {
+        DiaryApp.mSharedPre.putBoolean("isLock", false);
+        DiaryApp.mSharedPre.putString("lockStr", "");
     }
 }
