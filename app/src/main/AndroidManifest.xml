@@ -114,7 +114,10 @@
             android:name=".mvp.view.activity.WeeInputActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-        <activity android:name=".mvp.view.activity.SettingLockActivity"></activity>
+        <activity
+            android:name=".mvp.view.activity.SettingLockActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

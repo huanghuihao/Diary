@@ -34,6 +34,7 @@ public class DiaryApp extends Application {
 
     @Override
     public void onCreate() {
+        //添加测试
         super.onCreate();
         mSharedPre = SharedPreUtils.getInstance("diary", this);
         instances = this;
